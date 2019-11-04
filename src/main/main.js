@@ -4,7 +4,7 @@ import PieceFactory from "./domain/pieces/pieceFactory";
 import ChessBoardPopulator from "./domain/board/chessBoardPopulator";
 import PieceToFontAwesomeMapper from "./presentation/pieceToFontAwesomeMapper";
 import ChessBoardView from "./presentation/chessBoardView";
-import ChessGame from "./application/chessGame";
+import ChessGame from "./domain/chessGame";
 
 const piecesConfiguration = new StartPiecesConfiguration();
 const chessBoard = new ChessBoardPopulator(new PieceFactory(), piecesConfiguration).populate(ChessBoard.empty());
