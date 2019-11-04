@@ -22,7 +22,7 @@ describe('Pawn', () => {
             expect(whitePawn.side).to.equal(Side.WHITE);
         });
 
-        it(`should be available to move one or two squares up if the have not already moved`, () => {
+        it(`should be available to move one or two squares up if have not already moved`, () => {
             const startingBoard = staringChessBoard();
             const startingPawnSquare = Square.at("B", 1);
             const pawnOnBoard = startingBoard.getPiece(startingPawnSquare);
@@ -33,7 +33,7 @@ describe('Pawn', () => {
             expect(availableSquaresToMove).to.have.deep.members([Square.at("B", 2), Square.at("B", 3)]);
         });
 
-        it(`should be available to move only one square up if the have already moved`, () => {
+        it(`should be available to move only one square up if have already moved`, () => {
             const startingBoard = staringChessBoard();
             const startingPawnSquare = Square.at("B", 1);
             const pawnOnBoard = startingBoard.getPiece(startingPawnSquare);
@@ -60,7 +60,7 @@ describe('Pawn', () => {
             expect(availableSquaresToMove).to.be.empty;
         });
 
-        it('can move diagonally if there is a piece to take', () => {
+        it('can move diagonally if there is a piece to capture', () => {
             const startingPawnSquare = Square.at("B", 1);
             const pawnSquareToMove = Square.at("B", 5);
             const startingBoard = staringChessBoard();
@@ -84,7 +84,7 @@ describe('Pawn', () => {
             expect(blackPawn.side).to.equal(Side.BLACK);
         });
 
-        it(`should be available to move one or two squares down if the have not already moved`, () => {
+        it(`should be available to move one or two squares down if have not already moved`, () => {
             const startingBoard = staringChessBoard();
             const startingPawnSquare = Square.at("B", 6);
             const pawnOnBoard = startingBoard.getPiece(startingPawnSquare);
@@ -95,7 +95,7 @@ describe('Pawn', () => {
             expect(availableSquaresToMove).to.have.deep.members([Square.at("B", 5), Square.at("B", 4)]);
         });
 
-        it(`should be available to move only one square up if the have already moved`, () => {
+        it(`should be available to move only one square up if have already moved`, () => {
             const startingBoard = staringChessBoard();
             const startingPawnSquare = Square.at("B", 6);
             const pawnOnBoard = startingBoard.getPiece(startingPawnSquare);

@@ -1,7 +1,7 @@
 import PiecesConfiguration from "../../domain/pieces/piecesConfiguration";
 
 
-const startConfig = {
+const DEFAULT_START_CONFIG = {
     white: {
         King: ['D1'],
         Queen: ['E1'],
@@ -23,7 +23,7 @@ const startConfig = {
 
 export default class StartPiecesConfiguration extends PiecesConfiguration {
 
-    constructor() {
+    constructor(startConfig = DEFAULT_START_CONFIG) {
         super(startConfig.white, startConfig.black);
     }
 

@@ -63,6 +63,10 @@ export class Square {
         return `${this.column.number}${SQUARE_ID_SEPARATOR}${this.row.number}`;
     }
 
+    get algebricNotation(){
+        return `${this.column.character}${this.row.number}`
+    }
+
 }
 
 
