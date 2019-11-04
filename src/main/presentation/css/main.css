@@ -1,0 +1,9 @@
+:root {
+  margin: 0;
+  --board-size: 80vh;
+  --square-size: 80vh;
+}
+
+* {
+  box-sizing: border-box;
+}
