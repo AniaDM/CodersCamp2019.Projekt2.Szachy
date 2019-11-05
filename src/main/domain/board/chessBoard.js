@@ -1,6 +1,7 @@
 import {Column, Row, Square} from "./square";
 
 const BOARD_SIZE = 8;
+const btn = document.querySelector('#undoBtn');
 
 /**
  * Szachownica jest niemutowalna (metody nigdy nie zmieniają stanu, ale jeśli modyfikują ustawienie szachów, to zwracają nowy obiekt).
@@ -29,6 +30,8 @@ export default class ChessBoard {
             .setPiece(from, undefined)
             .setPiece(to, piece);
     }
+    
+   
 
     setPiece(square, piece) {
         const clone = this._cloneBoard();
@@ -77,4 +80,7 @@ export default class ChessBoard {
     get width() {
         return BOARD_SIZE;
     }
+    
+
+    
 }
