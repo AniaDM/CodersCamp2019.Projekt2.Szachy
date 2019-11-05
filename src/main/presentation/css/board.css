@@ -43,3 +43,15 @@
 .dark {
     background: rgb(107, 65, 3);
 }
+
+#undoBtn{
+    display: block;
+    padding:10px 30px;
+    color:brown;
+    margin-right: 20px;
+    border-radius: 10px;
+    text-decoration: none;
+   
+  
+    
+}
