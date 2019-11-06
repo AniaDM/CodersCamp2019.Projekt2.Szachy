@@ -1,4 +1,5 @@
-const btn = document.querySelector('#undoBtn');
+
+
 
 
 export class PieceMove {
@@ -14,6 +15,7 @@ export class PieceMove {
     static normalAt(square) {
         return new PieceMove(MoveType.NORMAL, square);
     }
+
 }
 
 
@@ -22,8 +24,6 @@ export const MoveType = {
     CAPTURE: "capture"
 };
 
-function undo(){
 
-    
-}
-btn.addEventListener('click',undo);
+
+

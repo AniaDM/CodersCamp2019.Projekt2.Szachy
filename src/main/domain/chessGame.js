@@ -1,5 +1,13 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
+import { Row, Column, id, rowNumber} from "./board/square";
+import { from } from "rxjs";
+const btn = document.querySelector("#undoBtn");
+
+const selPiece =[];
+const avaMoves = [];
+const selSquare = [];
+const tarSquare = [];
 
 export default class ChessGame {
 
@@ -32,6 +40,7 @@ export default class ChessGame {
                 return null;
             }
             this._selectPiece(piece, square, availableMoves);
+            
             return {piece, availableMoves}
         }
         return null;
@@ -61,9 +70,22 @@ export default class ChessGame {
             );
         } else {
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
+
+
             if (pieceMovedCallback) {
                 pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
+                
+                selPiece.push(this.selected.piece);
+                avaMoves.push(pieceAvailableMoves);
+                selSquare.push(this.selected.square);
+                tarSquare.push(targetSquare);
+                
+               
+                
             }
+
+            
+
             this.toggleCurrentSide();
         }
 
@@ -100,5 +122,25 @@ export default class ChessGame {
     get board() {
         return this.chessBoard;
     }
-
+ 
 }
+  
+
+       function undo(){
+        console.log(selPiece);
+        console.log(avaMoves);
+        console.log(selSquare);
+        console.log(tarSquare);
+
+        selPiece.pop()
+        avaMoves.pop()
+        selSquare.pop()
+        tarSquare.pop()
+        
+        return (new PieceMoved(selPiece[selPiece.length], avaMoves[avaMoves.length], selSquare[selSquare.length], tarSquare[tarSquare.length]));
+
+    
+   }
+   
+
+btn.addEventListener("click",undo);

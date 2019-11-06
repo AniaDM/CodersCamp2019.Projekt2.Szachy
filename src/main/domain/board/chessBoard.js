@@ -7,6 +7,7 @@ const btn = document.querySelector('#undoBtn');
  * Szachownica jest niemutowalna (metody nigdy nie zmieniają stanu, ale jeśli modyfikują ustawienie szachów, to zwracają nowy obiekt).
  * Niemutowalność zapewnia, że np. szach, gdy otrzyma szachownicę, nie zmieni ułożenia innych pionków.
  */
+
 export default class ChessBoard {
 
     constructor(board = ChessBoard._createEmptyBoard()) {
@@ -29,6 +30,8 @@ export default class ChessBoard {
         return this._cloneBoard()
             .setPiece(from, undefined)
             .setPiece(to, piece);
+    
+         
     }
     
    
