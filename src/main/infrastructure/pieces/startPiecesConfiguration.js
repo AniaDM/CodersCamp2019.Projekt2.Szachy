@@ -3,16 +3,16 @@ import PiecesConfiguration from "../../domain/pieces/piecesConfiguration";
 
 const DEFAULT_START_CONFIG = {
     white: {
-        King: ['D1'],
-        Queen: ['E1'],
+        King: ['E1'],
+        Queen: ['D1'],
         Bishop: ['C1', 'F1'],
         Knight: ['B1', 'G1'],
         Rook: ['A1', 'H1'],
         Pawn: ['A2', 'B2', 'C2', 'D2', 'E2', 'F2', 'G2', 'H2']
     },
     black: {
-        King: ['D8'],
-        Queen: ['E8'],
+        King: ['E8'],
+        Queen: ['D8'],
         Bishop: ['C8', 'F8'],
         Knight: ['B8', 'G8'],
         Rook: ['A8', 'H8'],
