@@ -1,10 +1,12 @@
 import {Square, Column, Row} from "../domain/board/square";
+import {ChessGame} from "../domain/chessGame";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
 const SQUARE_ID_ROW_INDEX = 2;
 const CSS_AVAILABLE_MOVE_CLASS_NAME = 'available-move';
 
+ 
 export default class ChessBoardView {
 
     constructor(pieceMapper, chessGame) {
@@ -12,7 +14,11 @@ export default class ChessBoardView {
         this.chessGame = chessGame;
         this._showChessBoard();
         this._registerBoardClickListener();
+        this.btn = document.querySelector("#undoBtn").addEventListener("click",this.chessGame.undoLastMove);
+
     }
+
+   
 
 
     _showChessBoard() {
@@ -96,3 +102,12 @@ export default class ChessBoardView {
     }
 
 }
+
+
+// function moveandclear(){
+// console.log('l')
+// }
+
+// const btn = document.querySelector("#undoBtn").addEventListener("click",moveandclear);
+
+// ChessGame.prototype.undoLastMove

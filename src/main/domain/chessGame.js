@@ -1,15 +1,12 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
-import { Row, Column, id, rowNumber} from "./board/square";
-import { from } from "rxjs";
-const btn = document.querySelector("#undoBtn");
+import {ChessBoardView} from "../presentation/chessBoardView";
 
-const selPiece =[];
-const avaMoves = [];
-const selSquare = [];
-const tarSquare = [];
-
+const historyChessBoard =[];
+const historySide =[];
 export default class ChessGame {
+
+    
 
     currentSide = Side.WHITE;
     selected = {
@@ -18,17 +15,22 @@ export default class ChessGame {
         availableMoves: null
     };
 
+    
+
     static newGame(chessBoard) {
         return new ChessGame(chessBoard);
     }
 
     constructor(chessBoard) {
         this.chessBoard = chessBoard;
+       
+      
     }
 
 
     toggleCurrentSide() {
         this.currentSide === Side.WHITE ? (this.currentSide = Side.BLACK) : (this.currentSide = Side.WHITE);
+        historySide.push(this.currentSide);
         return this.currentSide;
     }
 
@@ -40,7 +42,6 @@ export default class ChessGame {
                 return null;
             }
             this._selectPiece(piece, square, availableMoves);
-            
             return {piece, availableMoves}
         }
         return null;
@@ -70,22 +71,10 @@ export default class ChessGame {
             );
         } else {
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
-
-
+            historyChessBoard.push(this.chessBoard);
             if (pieceMovedCallback) {
                 pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
-                
-                selPiece.push(this.selected.piece);
-                avaMoves.push(pieceAvailableMoves);
-                selSquare.push(this.selected.square);
-                tarSquare.push(targetSquare);
-                
-               
-                
             }
-
-            
-
             this.toggleCurrentSide();
         }
 
@@ -122,25 +111,25 @@ export default class ChessGame {
     get board() {
         return this.chessBoard;
     }
- 
+
+    undoLastMove(){
+
+          if(historyChessBoard.length >=1 && historySide.length>=1){
+            console.log(historyChessBoard);
+            console.log(historySide);
+            }
+            else{
+             console.log('nie jest');
+            }
+
+    }
+
+
+
+
 }
-  
 
-       function undo(){
-        console.log(selPiece);
-        console.log(avaMoves);
-        console.log(selSquare);
-        console.log(tarSquare);
 
-        selPiece.pop()
-        avaMoves.pop()
-        selSquare.pop()
-        tarSquare.pop()
-        
-        return (new PieceMoved(selPiece[selPiece.length], avaMoves[avaMoves.length], selSquare[selSquare.length], tarSquare[tarSquare.length]));
 
-    
-   }
-   
 
-btn.addEventListener("click",undo);
+
