@@ -109,7 +109,14 @@ export default class Queen extends Piece {
                 }
             }
         };
-        moves = moves.map(movableSquare => PieceMove.normalAt(movableSquare));
+        //Normal and capture types of moves
+        moves = moves.map(movableSquare => {
+            if (this.canCaptureOnSquare(chessBoard, movableSquare)) {
+                return PieceMove.captureAt(movableSquare);
+            } else {
+                return PieceMove.normalAt(movableSquare);
+            }
+        });
         return moves;
     };
     //Check if square is occupied and piece capturable
