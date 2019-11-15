@@ -1,7 +1,7 @@
 import Piece from './piece';
-import {PieceMove} from "./pieceMove";
-import Side from "./side";
-import { Square } from '../board/square';
+import {
+    PieceMove
+} from "./pieceMove";
 
 export default class Queen extends Piece {
 
@@ -10,47 +10,109 @@ export default class Queen extends Piece {
     }
 
     getAvailableMoves(chessBoard, currentSquare) {
-        let normalMoves = [];
+        let moves = [];
+        //Straight moves
+        //Vertical down
         for (let i = (currentSquare.row.number + 1); i < 8; i++) {
-            if (chessBoard.squareIsOccupied(currentSquare.atY(i)) && !this.canCaptureOnSquare(chessBoard, currentSquare.atY(i))) {
+            let currentColumn = currentSquare.atY(i);
+            if (chessBoard.squareIsOccupied(currentColumn) && !this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-            normalMoves.push(currentSquare.atY(i));
-            if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i))) {
+            moves.push(currentColumn);
+            if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
         };
+        //Vertical up
         for (let i = (currentSquare.row.number - 1); i >= 0; i--) {
-            if (chessBoard.squareIsOccupied(currentSquare.atY(i)) && !this.canCaptureOnSquare(chessBoard, currentSquare.atY(i))) {
+            let currentColumn = currentSquare.atY(i);
+            if (chessBoard.squareIsOccupied(currentColumn) && !this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-            normalMoves.push(currentSquare.atY(i));
-            if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i))) {
+            moves.push(currentColumn);
+            if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
         };
+        //Horizontal right
         for (let i = (currentSquare.column.number + 1); i < 8; i++) {
-            if (chessBoard.squareIsOccupied(currentSquare.atX(i)) && !this.canCaptureOnSquare(chessBoard, currentSquare.atX(i))) {
+            let currentRow = currentSquare.atX(i);
+            if (chessBoard.squareIsOccupied(currentRow) && !this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-            normalMoves.push(currentSquare.atX(i));
-            if (this.canCaptureOnSquare(chessBoard, currentSquare.atX(i))) {
+            moves.push(currentRow);
+            if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
         };
+        //Horizontal left
         for (let i = (currentSquare.column.number - 1); i >= 0; i--) {
-            if (chessBoard.squareIsOccupied(currentSquare.atX(i)) && !this.canCaptureOnSquare(chessBoard, currentSquare.atX(i))) {
+            let currentRow = currentSquare.atX(i);
+            if (chessBoard.squareIsOccupied(currentRow) && !this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-            normalMoves.push(currentSquare.atX(i));
-            if (this.canCaptureOnSquare(chessBoard, currentSquare.atX(i))) {
+            moves.push(currentRow);
+            if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
         };
-        normalMoves = normalMoves.map(movableSquare => PieceMove.normalAt(movableSquare));
-        return normalMoves;
+        //Diagonal moves
+        //Up and left
+        for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number - 1); i >= 0; i--, j--) {
+            if (j >= 0) {
+                let currentDiagonal = currentSquare.atX(i).atY(j);
+                if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+                moves.push(currentDiagonal);
+                if (this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+            }
+        };
+        //Down and right
+        for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number + 1); i < 8; i++, j++) {
+            if (j < 8) {
+                let currentDiagonal = currentSquare.atX(i).atY(j);
+                if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+                moves.push(currentDiagonal);
+                if (this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+            }
+        };
+        //Down and left
+        for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number + 1); i >= 0; i--, j++) {
+            if (j < 8) {
+                let currentDiagonal = currentSquare.atX(i).atY(j);
+                if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+                moves.push(currentDiagonal);
+                if (this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+            }
+        };
+        //Up and right
+        for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number - 1); i < 8; i++, j--) {
+            if (j >= 0) {
+                let currentDiagonal = currentSquare.atX(i).atY(j);
+                if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+                moves.push(currentDiagonal);
+                if (this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
+                    break;
+                }
+            }
+        };
+        moves = moves.map(movableSquare => PieceMove.normalAt(movableSquare));
+        return moves;
     };
-
+    //Check if square is occupied and piece capturable
     canCaptureOnSquare(chessBoard, square) {
         return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
     };
