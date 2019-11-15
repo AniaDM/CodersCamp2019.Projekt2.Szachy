@@ -1,4 +1,5 @@
 import {Square, Column, Row} from "../domain/board/square";
+import Side from "../domain/pieces/side";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -51,6 +52,7 @@ export default class ChessBoardView {
                     document.getElementById(pieceMoved.to.id).innerHTML = this.pieceMapper.toIcon(pieceMoved.piece.name, pieceMoved.piece.side);
                     this._hideAvailableMoves(pieceMoved.availableMoves);
                     console.log(pieceMoved);
+                    this.checkingPromote(pieceMoved)
                 },
                 pieceNotMoved => {
                     this._hideAvailableMoves(pieceNotMoved.availableMoves);
@@ -59,6 +61,23 @@ export default class ChessBoardView {
             );
         }
     }
+
+    checkingPromote(pieceMoved) {
+        const pawnSquare = pieceMoved.to
+        if (pawnSquare.row.number === 0 && pieceMoved.piece.side === "white" && pieceMoved.piece.name === "Pawn") {
+            this.showPromoteModal(pawnSquare)
+        } else if (pieceMoved.to.row.number === 7 && pieceMoved.piece.side === "black" && pieceMoved.piece.name === "Pawn") {
+            this.showPromoteModal(pawnSquare)
+        }
+    }
+
+    showPromoteModal(pawnSquare) {
+        const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook")
+        const promoted = this.chessGame.promotePawn(pawnSquare, newPiece)
+        document.getElementById(pawnSquare.id).innerHTML = this.pieceMapper.toIcon(promoted.name, promoted.side)
+
+    }
+    
 
     selectPieceToMove(clickEvent) {
         const selectedSquare = this._clickedSquare(clickEvent);

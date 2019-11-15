@@ -1,5 +1,7 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
+import PieceFactory from "./pieces/pieceFactory";
+import PieceToFontAwesomeMapper from "../presentation/pieceToFontAwesomeMapper";
 
 export default class ChessGame {
 
@@ -99,6 +101,29 @@ export default class ChessGame {
 
     get board() {
         return this.chessBoard;
+    }
+
+    promotePawn(pawnSquare, newPiece) {
+        const pawn = this.findPieceBySquare(pawnSquare)
+        const pionek = new PieceFactory()
+        .createPiece(newPiece, pawn.side)
+        console.log(pawn.name)
+        console.log(pawn.side)
+        console.log(pawnSquare.row.number)
+        console.log(pionek)
+        console.log(newPiece)
+        console.log(pawnSquare)
+        console.log(this.chessBoard.setPiece(pawnSquare, pionek))
+            if (pawn.name === 'Pawn' && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {
+                this.chessBoard = this.chessBoard.setPiece(pawnSquare, pionek)
+            
+
+
+            }
+            else if (pawn.name === 'Pawn' && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {
+                this.chessBoard = this.chessBoard.setPiece(pawnSquare, pionek)
+            }
+        return pionek
     }
 
 }
