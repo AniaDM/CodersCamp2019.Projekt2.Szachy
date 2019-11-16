@@ -1,11 +1,7 @@
 import Piece from './piece';
-import {
-    PieceMove
-} from "./pieceMove";
+import {PieceMove} from "./pieceMove";
 import Side from "./side";
-import {
-    Square
-} from '../board/square';
+import {Square} from '../board/square';
 
 export default class Bishop extends Piece {
 
@@ -15,9 +11,6 @@ export default class Bishop extends Piece {
 
     getAvailableMoves(chessBoard, currentSquare) {
         let normalMoves = [];
-        console.log(`column = ${currentSquare.column.number}, row = ${currentSquare.row.number}`);
-
-        ///////////////////////// 1 FOR  +Y+X   ///////////////////////////
 
         for (let i = (currentSquare.row.number + 1), j = 1; i < 8; i++, j++) {
 
@@ -30,14 +23,12 @@ export default class Bishop extends Piece {
                 break;
             }
 
-            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number + j)); // movie +X
+            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number + j)); 
 
             if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i).atX(currentSquare.column.number + j))) {
                 break;
             }
         };
-
-        ///////////////////////// 2 FOR  -Y+X   ///////////////////////////
 
         for (let i = currentSquare.row.number - 1, j = 1; i >= 0; i--, j++) {
 
@@ -50,23 +41,19 @@ export default class Bishop extends Piece {
                 break;
             }
 
-            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number + j)); // movie +X
+            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number + j)); 
 
             if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i).atX(currentSquare.column.number + j))) {
                 break;
             }
         };
 
-        ///////////////////////// 3 FOR +Y-X    ///////////////////////////
-
-     
-
         for (let i = (currentSquare.row.number + 1), j = 1; i < 8; i++, j++) {
 
             if ((currentSquare.column.number - j) < 0) {
                 i++;
                 j++
-         
+
                 break;
             };
 
@@ -75,15 +62,12 @@ export default class Bishop extends Piece {
                 break;
             }
 
-            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number - j)); // movie -X
+            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number - j));
 
             if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i).atX(currentSquare.column.number - j))) {
                 break;
             }
         };
-
-
-        ///////////////////////// 4 FOR -Y-X    ///////////////////////////
 
         for (let i = currentSquare.row.number - 1, j = 1; i >= 0; i--, j++) {
 
@@ -100,10 +84,10 @@ export default class Bishop extends Piece {
                 break;
             }
 
-            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number - j)); // movie -X
+            normalMoves.push(currentSquare.atY(i).atX(currentSquare.column.number - j));
 
             if (this.canCaptureOnSquare(chessBoard, currentSquare.atY(i).atX(currentSquare.column.number - j))) {
-      
+
                 break;
             }
 
@@ -117,4 +101,3 @@ export default class Bishop extends Piece {
         return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
     };
 };
-
