@@ -1,7 +1,7 @@
 import Piece from './piece';
-import {PieceMove} from "./pieceMove";
+import {PieceMove} from './pieceMove';
 import Side from "./side";
-import Square from '../board/square'
+import {Square} from '../board/square';
 
 
 export default class Knight extends Piece {
