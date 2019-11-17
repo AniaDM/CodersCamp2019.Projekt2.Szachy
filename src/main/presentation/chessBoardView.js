@@ -63,12 +63,12 @@ export default class ChessBoardView {
     }
 
     checkingPromote(pieceMoved) {
+        const pawnPiece = "Pawn"
         const pawnSquare = pieceMoved.to
-        if (pawnSquare.row.number === 0 && pieceMoved.piece.side === "white" && pieceMoved.piece.name === "Pawn") {
+        const isPawnOnTheEndOfTheBoard = (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.WHITE && pawnSquare.row.number === 0)
+        if (isPawnOnTheEndOfTheBoard) {
             this.showPromoteModal(pawnSquare)
-        } else if (pieceMoved.to.row.number === 7 && pieceMoved.piece.side === "black" && pieceMoved.piece.name === "Pawn") {
-            this.showPromoteModal(pawnSquare)
-        }
+    }
     }
 
     showPromoteModal(pawnSquare) {

@@ -103,27 +103,25 @@ export default class ChessGame {
         return this.chessBoard;
     }
 
+    isBlackPawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
+        if (pawn.name === pawnPiece && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {true}
+    }
+
+    
+    isWhitePawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
+        if (pawn.name === pawnPiece && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {true}
+    }
+
     promotePawn(pawnSquare, newPiece) {
-        const pawn = this.findPieceBySquare(pawnSquare)
-        const pionek = new PieceFactory()
-        .createPiece(newPiece, pawn.side)
-        console.log(pawn.name)
-        console.log(pawn.side)
-        console.log(pawnSquare.row.number)
-        console.log(pionek)
-        console.log(newPiece)
-        console.log(pawnSquare)
-        console.log(this.chessBoard.setPiece(pawnSquare, pionek))
-            if (pawn.name === 'Pawn' && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {
-                this.chessBoard = this.chessBoard.setPiece(pawnSquare, pionek)
-            
-
-
+        const pawnPiece = "Pawn"
+        const pieceOnTheEnd = this.findPieceBySquare(pawnSquare)
+        const isPawnOnTheEndOfTheBoard = (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.WHITE && pawnSquare.row.number === 0)
+        if (isPawnOnTheEndOfTheBoard) {
+            const promotedPawn = new PieceFactory()
+            .createPiece(newPiece, pieceOnTheEnd.side)
+                this.chessBoard = this.chessBoard.setPiece(pawnSquare, promotedPawn)
+                return promotedPawn
             }
-            else if (pawn.name === 'Pawn' && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {
-                this.chessBoard = this.chessBoard.setPiece(pawnSquare, pionek)
-            }
-        return pionek
     }
 
 }
