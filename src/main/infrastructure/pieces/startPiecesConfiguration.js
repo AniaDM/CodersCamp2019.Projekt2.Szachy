@@ -16,7 +16,7 @@ const DEFAULT_START_CONFIG = {
         Bishop: ['C8', 'F8'],
         Knight: ['B8', 'G8'],
         Rook: ['A8', 'H8'],
-        Pawn: ['A7', 'B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7']
+        Pawn: ['A7','B7', 'C7', 'D7', 'E7', 'F7', 'G7', 'H7']
     }
 };
 
