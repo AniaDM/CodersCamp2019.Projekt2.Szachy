@@ -1,7 +1,11 @@
 import Piece from './piece';
-import {PieceMove} from './pieceMove';
-import Side from "./side";
-import {Square} from '../board/square';
+import {
+    PieceMove
+} from './pieceMove';
+
+import {
+    Square
+} from '../board/square';
 
 
 export default class Knight extends Piece {
@@ -10,8 +14,7 @@ export default class Knight extends Piece {
         super(side);
     }
     getAvailableMoves(chessBoard, currentSquare) {
-        const legalDelta = [
-            {
+        const legalMoves = [{
                 column: 2,
                 row: 1
             },
@@ -44,34 +47,36 @@ export default class Knight extends Piece {
                 row: -1
             }
         ];
-    
-        //Znaleźć które z legalDelta mieszczą się w szachownicy
-        const delta= legalDelta
-        .map(e => {
-            const column =currentSquare.column.number+e.column;
-            const row =currentSquare.row.number+e.row;
-            return {
-                column,
-                row
-        }
-    })
-        .filter(function(e){
-           return chessBoard.squareInBounds(e.column, e.row);
-       });
-    
+       
 
-        const normalMoves = delta
-        .map(mv => Square.at(mv.column,mv.row))
-        .filter(square => !chessBoard.squareIsOccupied(square))
-        .map(square => PieceMove.normalAt(square));
 
-        const captureMoves = delta
-        .map(mv => Square.at(mv.column,mv.row))
-        .filter(square => this.canCaptureOnSquare(chessBoard, square))
+        //Znaleźć które z legalMoves mieszczą się w szachownicy
+        const moves = legalMoves
+            .map(e => {
+                const column = currentSquare.column.number + e.column;
+                const row = currentSquare.row.number + e.row;
+                return {
+                    column,
+                    row
+                }
+            })
+            .filter(function (e) {
+                return chessBoard.squareInBounds(e.column, e.row);
+            });
+
+
+        const normalMoves = moves
+            .map(mv => Square.at(mv.column, mv.row))
+            .filter(square => !chessBoard.squareIsOccupied(square))
+            .map(square => PieceMove.normalAt(square));
+
+        const captureMoves = moves
+            .map(mv => Square.at(mv.column, mv.row))
+            .filter(square => this.canCaptureOnSquare(chessBoard, square))
             .map(capturableSquare => PieceMove.captureAt(capturableSquare));
-    
 
-        return captureMoves.concat(normalMoves);     
+
+        return captureMoves.concat(normalMoves);
     }
 
     canCaptureOnSquare(chessBoard, square) {
@@ -80,4 +85,3 @@ export default class Knight extends Piece {
 
 
 }
-
