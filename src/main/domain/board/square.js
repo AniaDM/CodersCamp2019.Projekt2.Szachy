@@ -20,26 +20,8 @@ export class Square {
 
     static fromAlgebricNotation(notation) {
         const algebricColumn = notation.charAt(0);
-        const algebricRow = parseInt(notation.charAt(1));
-        let row;
-        if(algebricRow === 1){
-            row = 7
-        }else if(algebricRow === 2){
-            row = 6
-        }else if(algebricRow === 3){
-            row = 5
-        }else if(algebricRow === 4){
-            row = 4
-        }else if(algebricRow === 5){
-            row = 3
-        }else if(algebricRow === 6){
-            row = 2
-        }else if(algebricRow === 7){
-            row = 1;
-        }else if(algebricRow === 8){
-            row = 0;
-        }
-        return new Square(Column.fromCharacter(algebricColumn), Row.fromNumber(row));
+        const algebricRow = 8 - parseInt(notation.charAt(1));
+        return new Square(Column.fromCharacter(algebricColumn), Row.fromNumber(algebricRow));
     }
 
     constructor(column, row) {
