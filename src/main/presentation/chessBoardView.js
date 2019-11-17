@@ -1,5 +1,4 @@
 import {Square, Column, Row} from "../domain/board/square";
-import {ChessGame} from "../domain/chessGame";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -14,11 +13,9 @@ export default class ChessBoardView {
         this.chessGame = chessGame;
         this._showChessBoard();
         this._registerBoardClickListener();
-        this.btn = document.querySelector("#undoBtn").addEventListener("click",this.chessGame.undoLastMove);
+        this.btn = document.querySelector("#undoBtn").addEventListener("click",this._undoLastMove.bind(this));
 
     }
-
-   
 
 
     _showChessBoard() {
@@ -36,6 +33,15 @@ export default class ChessBoardView {
             }
         }
     }
+
+    _clearChessBoard(){
+        while (this._boardHtmlElement().firstChild) {
+            this._boardHtmlElement().removeChild(this._boardHtmlElement().firstChild);
+        }
+    }
+
+
+
 
     _boardHtmlElement() {
         return document.getElementById('board');
@@ -90,7 +96,6 @@ export default class ChessBoardView {
             document.getElementById(move.square.id).classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
         }
     }
-
     _hideAvailableMoves(availableMoves) {
         if (availableMoves) {
             availableMoves.forEach(move => {
@@ -101,13 +106,10 @@ export default class ChessBoardView {
         }
     }
 
+    _undoLastMove() {
+        this.chessGame.undoLastMove();
+        this._clearChessBoard();
+        this._showChessBoard();
+    }
+
 }
-
-
-// function moveandclear(){
-// console.log('l')
-// }
-
-// const btn = document.querySelector("#undoBtn").addEventListener("click",moveandclear);
-
-// ChessGame.prototype.undoLastMove
