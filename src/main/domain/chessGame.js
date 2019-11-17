@@ -1,12 +1,10 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
-import {ChessBoardView} from "../presentation/chessBoardView";
 
-const historyChessBoard =[];
-const historySide =[];
+
 export default class ChessGame {
 
-    
+    gameHistory =[];
 
     currentSide = Side.WHITE;
     selected = {
@@ -30,7 +28,6 @@ export default class ChessGame {
 
     toggleCurrentSide() {
         this.currentSide === Side.WHITE ? (this.currentSide = Side.BLACK) : (this.currentSide = Side.WHITE);
-        historySide.push(this.currentSide);
         return this.currentSide;
     }
 
@@ -70,8 +67,10 @@ export default class ChessGame {
                     'Selected square is not available for the piece!')
             );
         } else {
+            this._saveHistory();
+
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
-            historyChessBoard.push(this.chessBoard);
+           
             if (pieceMovedCallback) {
                 pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
             }
@@ -79,6 +78,14 @@ export default class ChessGame {
         }
 
         this._clearSelection();
+    }
+
+    _saveHistory(){
+        this.gameHistory.push({
+            side: this.currentSide,
+            chessBoard: this.chessBoard,
+            timestamp: new Date()
+        });
     }
 
     _clearSelection() {
@@ -112,16 +119,12 @@ export default class ChessGame {
         return this.chessBoard;
     }
 
-    undoLastMove(){
-
-          if(historyChessBoard.length >=1 && historySide.length>=1){
-            console.log(historyChessBoard);
-            console.log(historySide);
-            }
-            else{
-             console.log('nie jest');
-            }
-
+    undoLastMove() {
+        const historicalState = this.gameHistory.pop();
+        if(historicalState) {
+            this.chessBoard = historicalState.chessBoard;
+            this.currentSide = historicalState.side;
+        }
     }
 
 
