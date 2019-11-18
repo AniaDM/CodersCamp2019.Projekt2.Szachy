@@ -17,7 +17,6 @@
     "@babel/preset-env": "^7.6.3",
     "babel-loader": "^8.0.6",
     "eslint": "^6.6.0",
-    "mocha": "^6.2.2",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.9.0"
@@ -27,6 +26,7 @@
     "@babel/polyfill": "^7.6.0",
     "@babel/register": "^7.6.2",
     "chai": "^4.2.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "mocha": "^6.2.2"
   }
 }
