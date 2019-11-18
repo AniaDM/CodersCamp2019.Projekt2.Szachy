@@ -5,7 +5,6 @@ export class Square {
     static at(column, row) {
         if(typeof column === 'string'){
             column = Column.fromCharacter(column);
-           
         }else if(typeof column === 'number'){
             column = Column.fromNumber(column);
         } else if (!(column instanceof Column)) {
@@ -32,45 +31,35 @@ export class Square {
         }else if(algebricRow === 8){
             row = 0;
         }
-        
         return new Square(Column.fromCharacter(algebricColumn), Row.fromNumber(row));
     }
 
     constructor(column, row) {
         this.column = column;
         this.row = row;
-        
     }
 
     get col() {
-     
         return this.column;
     }
 
     atColumn(column) {
-    
         return new Square(column, this.row);
-       
     }
 
     atRow(row) {
- 
         return new Square(this.column, row);
     }
 
     atX(x) {
-
         return this.atColumn(Column.fromNumber(x));
     }
 
     atY(y) {
-      
         return this.atRow(Row.fromNumber(y));
     }
 
     get id() {
-        
-
         return `${this.column.number}${SQUARE_ID_SEPARATOR}${this.row.number}`;
     }
 
@@ -80,9 +69,7 @@ export class Square {
 export class Row {
 
     static fromNumber(rowNumber) {
-        
         return new Row(rowNumber);
-        
     }
 
     constructor(rowNumber) {
@@ -136,5 +123,4 @@ export class Column {
 
 
 }
-
 
