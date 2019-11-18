@@ -1,5 +1,7 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
+import PieceFactory from "./pieces/pieceFactory";
+import PieceToFontAwesomeMapper from "../presentation/pieceToFontAwesomeMapper";
 
 export default class ChessGame {
 
@@ -99,6 +101,27 @@ export default class ChessGame {
 
     get board() {
         return this.chessBoard;
+    }
+
+    isBlackPawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
+        if (pawn.name === pawnPiece && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {true}
+    }
+
+    
+    isWhitePawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
+        if (pawn.name === pawnPiece && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {true}
+    }
+
+    promotePawn(pawnSquare, newPiece) {
+        const pawnPiece = "Pawn"
+        const pieceOnTheEnd = this.findPieceBySquare(pawnSquare)
+        const isPawnOnTheEndOfTheBoard = (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.WHITE && pawnSquare.row.number === 0)
+        if (isPawnOnTheEndOfTheBoard) {
+            const promotedPawn = new PieceFactory()
+            .createPiece(newPiece, pieceOnTheEnd.side)
+                this.chessBoard = this.chessBoard.setPiece(pawnSquare, promotedPawn)
+                return promotedPawn
+            }
     }
 
 }
