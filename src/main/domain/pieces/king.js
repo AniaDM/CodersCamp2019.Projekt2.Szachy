@@ -3,11 +3,11 @@ import {PieceMove} from "./pieceMove";
 import Side from "./side";
 import Square from '../board/square'
 
-export default class Knight extends Piece {    constructor(side) {
+export default class King extends Piece {    constructor(side) {
        super(side);
    }
    getAvailableMoves(chessBoard, currentSquare) {
-       const deltas = [[2,1],[1,2],[1,-2],[2,-1],[-2,1],[-1,2],[-1,-2],[-2,-1]];
+       const deltas = [[-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]];
        let normalMoves=[];
        let captureMoves=[];
        for(let delta of deltas){
