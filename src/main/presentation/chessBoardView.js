@@ -6,6 +6,7 @@ const SQUARE_ID_COLUMN_INDEX = 0;
 const SQUARE_ID_ROW_INDEX = 2;
 const CSS_AVAILABLE_MOVE_CLASS_NAME = 'available-move';
 
+
 export default class ChessBoardView {
 
     constructor(pieceMapper, chessGame) {
@@ -13,6 +14,7 @@ export default class ChessBoardView {
         this.chessGame = chessGame;
         this._showChessBoard();
         this._registerBoardClickListener();
+        this.btn = document.querySelector("#undoBtn").addEventListener("click",this._undoLastMove.bind(this));
     }
 
 
@@ -31,6 +33,15 @@ export default class ChessBoardView {
             }
         }
     }
+
+    _clearChessBoard(){
+        while (this._boardHtmlElement().firstChild) {
+            this._boardHtmlElement().removeChild(this._boardHtmlElement().firstChild);
+        }
+    }
+
+
+
 
     _boardHtmlElement() {
         return document.getElementById('board');
@@ -82,7 +93,7 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
         this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
 
     }
-    
+
 
     selectPieceToMove(clickEvent) {
         const selectedSquare = this._clickedSquare(clickEvent);
@@ -108,7 +119,6 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
             document.getElementById(move.square.id).classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
         }
     }
-
     _hideAvailableMoves(availableMoves) {
         if (availableMoves) {
             availableMoves.forEach(move => {
@@ -117,6 +127,12 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
                 }
             );
         }
+    }
+
+    _undoLastMove() {
+        this.chessGame.undoLastMove();
+        this._clearChessBoard();
+        this._showChessBoard();
     }
 
 }
