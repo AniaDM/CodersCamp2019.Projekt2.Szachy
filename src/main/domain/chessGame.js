@@ -1,11 +1,10 @@
 import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
 import PieceFactory from "./pieces/pieceFactory";
-import PieceToFontAwesomeMapper from "../presentation/pieceToFontAwesomeMapper";
 
 export default class ChessGame {
 
-    gameHistory =[];
+    gameHistory = [];
 
     currentSide = Side.WHITE;
     selected = {
@@ -76,7 +75,7 @@ export default class ChessGame {
         this._clearSelection();
     }
 
-    _saveHistory(){
+    _saveHistory() {
         this.gameHistory.push({
             side: this.currentSide,
             chessBoard: this.chessBoard,
@@ -116,12 +115,16 @@ export default class ChessGame {
     }
 
     isBlackPawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
-        if (pawn.name === pawnPiece && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {true}
+        if (pawn.name === pawnPiece && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {
+            true
+        }
     }
 
 
     isWhitePawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
-        if (pawn.name === pawnPiece && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {true}
+        if (pawn.name === pawnPiece && pawn.side === Side.WHITE && pawnSquare.row.number === 0) {
+            true
+        }
     }
 
     promotePawn(pawnSquare, newPiece) {
@@ -130,17 +133,17 @@ export default class ChessGame {
         const isPawnOnTheEndOfTheBoard = (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.WHITE && pawnSquare.row.number === 0)
         if (isPawnOnTheEndOfTheBoard) {
             const promotedPawn = new PieceFactory()
-            .createPiece(newPiece, pieceOnTheEnd.side)
-                this.chessBoard = this.chessBoard.setPiece(pawnSquare, promotedPawn)
-                return promotedPawn
-            }
+                .createPiece(newPiece, pieceOnTheEnd.side)
+            this.chessBoard = this.chessBoard.setPiece(pawnSquare, promotedPawn)
+            return promotedPawn
+        }
     }
 
-}
     undoLastMove() {
         const historicalState = this.gameHistory.pop();
-        if(historicalState) {
+        if (historicalState) {
             this.chessBoard = historicalState.chessBoard;
             this.currentSide = historicalState.side;
         }
     }
+}
