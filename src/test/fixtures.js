@@ -7,8 +7,8 @@ import ChessBoard from "../main/domain/board/chessBoard";
 Fixtures są to gotowe stany początkowe używane do testów.
  */
 
-export function staringChessBoard() {
-    return new ChessBoardPopulator(new PieceFactory(), new StartPiecesConfiguration()).populate(ChessBoard.empty());
+export function staringChessBoard(startConfig) {
+    return new ChessBoardPopulator(new PieceFactory(), new StartPiecesConfiguration(startConfig)).populate(ChessBoard.empty());
 }
 
 export function emptyChessBoard() {

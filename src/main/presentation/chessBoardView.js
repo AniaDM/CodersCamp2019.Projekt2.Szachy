@@ -1,11 +1,12 @@
 import {Square, Column, Row} from "../domain/board/square";
+import Side from "../domain/pieces/side";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
 const SQUARE_ID_ROW_INDEX = 2;
 const CSS_AVAILABLE_MOVE_CLASS_NAME = 'available-move';
 
- 
+
 export default class ChessBoardView {
 
     constructor(pieceMapper, chessGame) {
@@ -14,7 +15,6 @@ export default class ChessBoardView {
         this._showChessBoard();
         this._registerBoardClickListener();
         this.btn = document.querySelector("#undoBtn").addEventListener("click",this._undoLastMove.bind(this));
-
     }
 
 
@@ -51,6 +51,11 @@ export default class ChessBoardView {
         this._boardHtmlElement().addEventListener('click', this._boardTouched.bind(this))
     }
 
+makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
+    document.getElementById(IdPieceToChange).innerHTML = this.pieceMapper.toIcon(PieceName, PieceSide);
+
+}
+
     _boardTouched(clickEvent) {
         if (!this.chessGame.isPieceToMoveSelected()) {
             this.selectPieceToMove(clickEvent);
@@ -60,9 +65,10 @@ export default class ChessBoardView {
                 targetSquareToMoveSelectedPiece,
                 pieceMoved => {
                     document.getElementById(pieceMoved.from.id).innerHTML = '';
-                    document.getElementById(pieceMoved.to.id).innerHTML = this.pieceMapper.toIcon(pieceMoved.piece.name, pieceMoved.piece.side);
+                    this.makeTheIcon(pieceMoved.to.id, pieceMoved.piece.name, pieceMoved.piece.side);
                     this._hideAvailableMoves(pieceMoved.availableMoves);
                     console.log(pieceMoved);
+                    this.checkingPromote(pieceMoved)
                 },
                 pieceNotMoved => {
                     this._hideAvailableMoves(pieceNotMoved.availableMoves);
@@ -71,6 +77,23 @@ export default class ChessBoardView {
             );
         }
     }
+
+    checkingPromote(pieceMoved) {
+        const pawnPiece = "Pawn"
+        const pawnSquare = pieceMoved.to
+        const isPawnOnTheEndOfTheBoard = (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.WHITE && pawnSquare.row.number === 0)
+        if (isPawnOnTheEndOfTheBoard) {
+            this.showPromoteModal(pawnSquare)
+        }
+    }
+
+    showPromoteModal(pawnSquare) {
+        const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook")
+        const promoted = this.chessGame.promotePawn(pawnSquare, newPiece);
+        this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
+
+    }
+
 
     selectPieceToMove(clickEvent) {
         const selectedSquare = this._clickedSquare(clickEvent);
