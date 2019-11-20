@@ -24,8 +24,15 @@ export default class King extends Piece {    constructor(side) {
        captureMoves = captureMoves.map(capturableSquare => PieceMove.captureAt(capturableSquare))
        return normalMoves
               .concat(captureMoves);
-   }    canCaptureOnSquare(chessBoard, square) {
+   }  
+   canCaptureOnSquare(chessBoard, square) {
        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
-   }    isMoveToSquareImpossible(chessBoard, square) {
+   }    
+   isMoveToSquareImpossible(chessBoard, square) {
        return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
-   }}
+   }
+   isCapturableBy(){
+       return false;
+   }
+
+}
