@@ -1,5 +1,6 @@
 import {Square, Column, Row} from "../domain/board/square";
 import Side from "../domain/pieces/side";
+import King from "../domain/pieces/king";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -51,10 +52,10 @@ export default class ChessBoardView {
         this._boardHtmlElement().addEventListener('click', this._boardTouched.bind(this))
     }
 
-makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
-    document.getElementById(IdPieceToChange).innerHTML = this.pieceMapper.toIcon(PieceName, PieceSide);
+    makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
+         document.getElementById(IdPieceToChange).innerHTML = this.pieceMapper.toIcon(PieceName, PieceSide);
 
-}
+    }
 
     _boardTouched(clickEvent) {
         if (!this.chessGame.isPieceToMoveSelected()) {
@@ -67,17 +68,18 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
                     document.getElementById(pieceMoved.from.id).innerHTML = '';
                     this.makeTheIcon(pieceMoved.to.id, pieceMoved.piece.name, pieceMoved.piece.side);
                     this._hideAvailableMoves(pieceMoved.availableMoves);
-                    console.log(pieceMoved);
-                    this.checkingPromote(pieceMoved)
+                   
+                                    this.checkingPromote(pieceMoved);
+                   
                 },
                 pieceNotMoved => {
                     this._hideAvailableMoves(pieceNotMoved.availableMoves);
-                    console.log(pieceNotMoved);
+                   
                 }
             );
         }
     }
-
+    
     checkingPromote(pieceMoved) {
         const pawnPiece = "Pawn"
         const pawnSquare = pieceMoved.to

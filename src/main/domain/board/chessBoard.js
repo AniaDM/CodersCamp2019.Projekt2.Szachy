@@ -1,3 +1,4 @@
+import Side from "../pieces/side";
 import {Column, Row, Square} from "./square";
 
 const BOARD_SIZE = 8;
@@ -50,7 +51,30 @@ export default class ChessBoard {
         }
         throw new Error('The supplied piece is not on the board');
     }
-
+    getPieces() {
+       
+        const pieceTab=[];
+        for (let row = 0; row < this.board.length; row++) {
+            for (let col = 0; col < this.board[row].length; col++) {   
+                let index= Square.at(Column.fromNumber(col), Row.fromNumber(row));     
+               if (this.getPiece(index) !==undefined){
+                   pieceTab.push([this.getPiece(index),index]);
+              }
+            }
+        }
+         return pieceTab;
+    }
+    checkingCheck(){
+        const board = this.getPieces();
+        board.forEach(item=>{item[0].getAvailableMoves(this,item[1])});
+        const whiteKingPiece=board.filter(item=>{return item[0].name==='King'&&item[0].side===Side.WHITE});
+        const blackKingPiece=board.filter(item=>{return item[0].name==='King'&&item[0].side===Side.BLACK});
+        const whiteKingChecked=whiteKingPiece[0][0].checked;
+        const blackKingChecked=blackKingPiece[0][0].checked;
+        whiteKingPiece[0][0].checked=false;
+        blackKingPiece[0][0].checked=false;
+        return [whiteKingChecked,blackKingChecked]
+     }
     squareInBounds(colNumber, rowNumber) {
         return (
             0 <= rowNumber && rowNumber < BOARD_SIZE &&

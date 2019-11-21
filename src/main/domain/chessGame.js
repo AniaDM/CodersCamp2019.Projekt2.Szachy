@@ -42,6 +42,7 @@ export default class ChessGame {
 
     moveSelectedPieceTo(targetSquare, pieceMovedCallback, pieceNotMovedCallback) {
         const pieceAvailableMoves = this.selected.availableMoves;
+        const beforeMoveIsKingChecked=this.kingIsChecked();
         if (!this.isPieceToMoveSelected()) {
             pieceNotMovedCallback(
                 new PieceNotMoved(
@@ -64,17 +65,37 @@ export default class ChessGame {
             );
         } else {
             this._saveHistory();
-
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
-            if (pieceMovedCallback) {
-                pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
+            const afterMoveIsKingChecked=this.kingIsChecked();
+            if(!afterMoveIsKingChecked){
+                if (pieceMovedCallback) {
+                   pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
+                }
+                if(this.chessBoard.checkingCheck()[0]){
+                  alert('white king is checked');
+                };
+                if(this.chessBoard.checkingCheck()[1]){
+                  alert('black king is checked');
+                };
+                this.toggleCurrentSide();
+            } else{
+                this.gameHistory.pop();
+                this.chessBoard = this.chessBoard.movePiece(this.selected.piece,  targetSquare,this.selected.square);
+                pieceNotMovedCallback(
+                    new PieceNotMoved(
+                        this.selected.piece,
+                        pieceAvailableMoves,
+                        this.selected.square,
+                        targetSquare,
+                        'King is checked!')
+                );
             }
-            this.toggleCurrentSide();
         }
-
         this._clearSelection();
     }
-
+    kingIsChecked(){  
+       return this.currentSide === Side.WHITE ?this.chessBoard.checkingCheck()[0]:this.chessBoard.checkingCheck()[1];
+    }
     _saveHistory() {
         this.gameHistory.push({
             side: this.currentSide,
@@ -113,7 +134,7 @@ export default class ChessGame {
     get board() {
         return this.chessBoard;
     }
-
+    
     isBlackPawnOnTheEndOfTheBoard(pawn, pawnSquare, pawnPiece) {
         if (pawn.name === pawnPiece && pawn.side === Side.BLACK && pawnSquare.row.number === 7) {
             true
@@ -126,6 +147,7 @@ export default class ChessGame {
             true
         }
     }
+   
 
     promotePawn(pawnSquare, newPiece) {
         const pawnPiece = "Pawn"

@@ -5,6 +5,7 @@ import Square from '../board/square'
 
 export default class King extends Piece {    constructor(side) {
        super(side);
+       this.checked=false;
    }
    getAvailableMoves(chessBoard, currentSquare) {
        const deltas = [[-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]];
@@ -31,7 +32,11 @@ export default class King extends Piece {    constructor(side) {
    isMoveToSquareImpossible(chessBoard, square) {
        return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
    }
-   isCapturableBy(){
+  isCapturableBy(anotherPiece){
+      if(this.side !== anotherPiece.side){
+      this.checked=true;
+      }
     return false;
-}
+   }
+     
 }
