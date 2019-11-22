@@ -2,6 +2,7 @@ import Side from "../domain/pieces/side";
 import {PieceMoved, PieceNotMoved} from "../domain/board/move";
 import PieceFactory from "./pieces/pieceFactory";
 
+
 export default class ChessGame {
 
     gameHistory = [];
@@ -42,7 +43,6 @@ export default class ChessGame {
 
     moveSelectedPieceTo(targetSquare, pieceMovedCallback, pieceNotMovedCallback) {
         const pieceAvailableMoves = this.selected.availableMoves;
-        const beforeMoveIsKingChecked=this.kingIsChecked();
         if (!this.isPieceToMoveSelected()) {
             pieceNotMovedCallback(
                 new PieceNotMoved(
@@ -63,11 +63,19 @@ export default class ChessGame {
                     targetSquare,
                     'Selected square is not available for the piece!')
             );
-        } else {
+        } else if(this.notLegalMove(this.selected.piece, this.selected.square, targetSquare)){
+            pieceNotMovedCallback(
+                new PieceNotMoved(
+                    this.selected.piece,
+                    pieceAvailableMoves,
+                    this.selected.square,
+                    targetSquare,
+                    'King is checked!')
+            );
+                } else {
             this._saveHistory();
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
-            const afterMoveIsKingChecked=this.kingIsChecked();
-            if(!afterMoveIsKingChecked){
+           
                 if (pieceMovedCallback) {
                    pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
                 }
@@ -78,21 +86,30 @@ export default class ChessGame {
                   alert('black king is checked');
                 };
                 this.toggleCurrentSide();
-            } else{
-                this.gameHistory.pop();
-                this.chessBoard = this.chessBoard.movePiece(this.selected.piece,  targetSquare,this.selected.square);
-                pieceNotMovedCallback(
-                    new PieceNotMoved(
-                        this.selected.piece,
-                        pieceAvailableMoves,
-                        this.selected.square,
-                        targetSquare,
-                        'King is checked!')
-                );
-            }
+                if(this.checkingCheckMate()){
+                    alert("Check Mate!!!!!!");
+                };
         }
         this._clearSelection();
     }
+    checkingCheckMate(){
+        const legalMoves=[];
+        this.board.getPiecesForSide(this.currentSide).forEach(item=>{
+            if(!this.notLegalMove(item[0],item[1],item[2].square)){
+            legalMoves.push(!this.notLegalMove(item[0],item[1],item[2].square));
+            }
+        })
+        return legalMoves.length==0;
+        
+    }
+    notLegalMove(piece,square, targetSquare){
+        console.log("notLegalMove");
+        this.chessBoard = this.chessBoard.movePiece(piece,square, targetSquare);
+        const afterMoveIsKingChecked=this.kingIsChecked();
+        this.chessBoard = this.chessBoard.movePiece(piece,targetSquare,square);
+        return afterMoveIsKingChecked;
+    }
+
     kingIsChecked(){  
        return this.currentSide === Side.WHITE ?this.chessBoard.checkingCheck()[0]:this.chessBoard.checkingCheck()[1];
     }

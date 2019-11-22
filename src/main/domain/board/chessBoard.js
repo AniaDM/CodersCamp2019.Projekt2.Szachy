@@ -75,6 +75,24 @@ export default class ChessBoard {
         blackKingPiece[0][0].checked=false;
         return [whiteKingChecked,blackKingChecked]
      }
+     getPiecesForSide(side){
+         const moves=[];
+         let piece,square,move;
+         this.getPieces()
+         .filter(item=>{return item[0].side===side})
+         .map(item=>{
+             piece=item[0];
+             square=item[1];
+             move=piece.getAvailableMoves(this,square);
+             if(move){          
+             move.forEach(item=>{
+                moves.push([piece,square,item]);
+            })
+           }
+         })
+         return moves;
+     }
+      
     squareInBounds(colNumber, rowNumber) {
         return (
             0 <= rowNumber && rowNumber < BOARD_SIZE &&

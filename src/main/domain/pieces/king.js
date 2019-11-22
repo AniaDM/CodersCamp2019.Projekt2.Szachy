@@ -20,7 +20,8 @@ export default class King extends Piece {    constructor(side) {
            }
            if(moveSquare && this.canCaptureOnSquare(chessBoard, moveSquare)){
                captureMoves.push(moveSquare);
-         }        }
+           }        
+        }
        normalMoves = normalMoves.map(movableSquare => PieceMove.normalAt(movableSquare));
        captureMoves = captureMoves.map(capturableSquare => PieceMove.captureAt(capturableSquare))
        return normalMoves
