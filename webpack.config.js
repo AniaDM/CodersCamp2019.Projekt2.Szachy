@@ -8,10 +8,11 @@ module.exports = {
         filename: 'index.js'
     },
     resolve: {
-        extensions: ['.js']
+        extensions: ['.ts', '.tsx', '.js']
     },
     module: {
         rules: [
+            {test: /\.tsx?$/, loader: "ts-loader"},
             {
                 test: /\.(js)$/,
                 loaders: ['babel-loader'],
