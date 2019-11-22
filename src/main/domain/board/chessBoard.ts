@@ -8,6 +8,8 @@ const BOARD_SIZE = 8;
  */
 export default class ChessBoard {
 
+    board;
+
     constructor(board = ChessBoard._createEmptyBoard()) {
         this.board = board;
     }

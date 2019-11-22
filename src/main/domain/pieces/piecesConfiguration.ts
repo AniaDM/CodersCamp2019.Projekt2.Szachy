@@ -1,9 +1,12 @@
 export default class PiecesConfiguration {
 
-    constructor(whitePieces, blackPieces) {
-        this.whitePieces = whitePieces;
-        this.blackPieces = blackPieces;
+    private config;
 
+    constructor(whitePieces, blackPieces) {
+        this.config = {
+            white: whitePieces,
+            black: blackPieces
+        };
         if (this.whitePieces === undefined) {
             throw new Error('White pieces configuration must be defined!');
         }
@@ -13,4 +16,11 @@ export default class PiecesConfiguration {
         }
     }
 
+    get whitePieces() {
+        return this.config.white;
+    }
+
+    get blackPieces() {
+        return this.config.black;
+    }
 }

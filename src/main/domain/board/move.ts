@@ -1,5 +1,10 @@
 export class PieceMoved {
 
+    piece;
+    availableMoves;
+    from;
+    to;
+
     constructor(piece, availableMoves, from, to) {
         this.piece = piece;
         this.availableMoves = availableMoves;
@@ -9,6 +14,12 @@ export class PieceMoved {
 }
 
 export class PieceNotMoved {
+
+    piece;
+    availableMoves;
+    from;
+    to;
+    reason;
 
     constructor(piece, availableMoves, from, to, reason) {
         this.piece = piece;

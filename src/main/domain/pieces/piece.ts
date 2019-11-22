@@ -2,6 +2,8 @@ import Side from './side';
 
 export default class Piece {
 
+    side;
+
     constructor(side) {
         if (side !== Side.WHITE && side !== Side.BLACK) {
             throw new TypeError('Side must be White or Black!')

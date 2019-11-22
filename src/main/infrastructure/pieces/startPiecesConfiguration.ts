@@ -1,7 +1,20 @@
 import PiecesConfiguration from "../../domain/pieces/piecesConfiguration";
 
+export type ChessboardPiecesConfig = {
+    white: SidePiecesConfig,
+    black: SidePiecesConfig
+}
 
-const DEFAULT_START_CONFIG = {
+export type SidePiecesConfig = {
+    King: string[],
+    Queen: string[],
+    Bishop: string[],
+    Knight: string[],
+    Rook: string[],
+    Pawn: string[]
+}
+
+const DEFAULT_START_CONFIG: ChessboardPiecesConfig = {
     white: {
         King: ['E1'],
         Queen: ['D1'],

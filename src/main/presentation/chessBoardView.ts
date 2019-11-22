@@ -9,12 +9,16 @@ const CSS_AVAILABLE_MOVE_CLASS_NAME = 'available-move';
 
 export default class ChessBoardView {
 
+    pieceMapper;
+    chessGame;
+    btn;
+
     constructor(pieceMapper, chessGame) {
         this.pieceMapper = pieceMapper;
         this.chessGame = chessGame;
         this._showChessBoard();
         this._registerBoardClickListener();
-        this.btn = document.querySelector("#undoBtn").addEventListener("click",this._undoLastMove.bind(this));
+        this.btn = document.querySelector("#undoBtn").addEventListener("click", this._undoLastMove.bind(this));
     }
 
 
@@ -34,14 +38,11 @@ export default class ChessBoardView {
         }
     }
 
-    _clearChessBoard(){
+    _clearChessBoard() {
         while (this._boardHtmlElement().firstChild) {
             this._boardHtmlElement().removeChild(this._boardHtmlElement().firstChild);
         }
     }
-
-
-
 
     _boardHtmlElement() {
         return document.getElementById('board');
@@ -51,10 +52,10 @@ export default class ChessBoardView {
         this._boardHtmlElement().addEventListener('click', this._boardTouched.bind(this))
     }
 
-makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
-    document.getElementById(IdPieceToChange).innerHTML = this.pieceMapper.toIcon(PieceName, PieceSide);
+    makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
+        document.getElementById(IdPieceToChange).innerHTML = this.pieceMapper.toIcon(PieceName, PieceSide);
 
-}
+    }
 
     _boardTouched(clickEvent) {
         if (!this.chessGame.isPieceToMoveSelected()) {
@@ -79,16 +80,16 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
     }
 
     checkingPromote(pieceMoved) {
-        const pawnPiece = "Pawn"
-        const pawnSquare = pieceMoved.to
-        const isPawnOnTheEndOfTheBoard = (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.WHITE && pawnSquare.row.number === 0)
+        const pawnPiece = "Pawn";
+        const pawnSquare = pieceMoved.to;
+        const isPawnOnTheEndOfTheBoard = (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.BLACK && pawnSquare.row.number === 7) || (pieceMoved.piece.name === pawnPiece && pieceMoved.piece.side === Side.WHITE && pawnSquare.row.number === 0);
         if (isPawnOnTheEndOfTheBoard) {
             this.showPromoteModal(pawnSquare)
         }
     }
 
     showPromoteModal(pawnSquare) {
-        const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook")
+        const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook");
         const promoted = this.chessGame.promotePawn(pawnSquare, newPiece);
         this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
 
@@ -119,6 +120,7 @@ makeTheIcon(IdPieceToChange, PieceName, PieceSide) {
             document.getElementById(move.square.id).classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
         }
     }
+
     _hideAvailableMoves(availableMoves) {
         if (availableMoves) {
             availableMoves.forEach(move => {

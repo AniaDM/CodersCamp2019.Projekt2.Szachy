@@ -1,11 +1,7 @@
 import Piece from './piece';
-import {
-    PieceMove
-} from './pieceMove';
+import {PieceMove} from './pieceMove';
 
-import {
-    Square
-} from '../board/square';
+import {Square} from '../board/square';
 
 
 export default class Knight extends Piece {
@@ -13,11 +9,12 @@ export default class Knight extends Piece {
     constructor(side) {
         super(side);
     }
+
     getAvailableMoves(chessBoard, currentSquare) {
         const legalMoves = [{
-                column: 2,
-                row: 1
-            },
+            column: 2,
+            row: 1
+        },
             {
                 column: 1,
                 row: 2
@@ -47,7 +44,6 @@ export default class Knight extends Piece {
                 row: -1
             }
         ];
-       
 
 
         //Znaleźć które z legalMoves mieszczą się w szachownicy

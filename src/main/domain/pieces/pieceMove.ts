@@ -1,4 +1,8 @@
 export class PieceMove {
+
+    type;
+    square;
+
     constructor(type, square) {
         this.type = type;
         this.square = square;

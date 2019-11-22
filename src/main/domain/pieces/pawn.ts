@@ -50,6 +50,8 @@ export default class Pawn extends Piece {
             return currentSquare.row.number === 6;
         } else if (this.side === Side.BLACK) {
             return currentSquare.row.number === 1;
+        } else {
+            return false;
         }
     }
 

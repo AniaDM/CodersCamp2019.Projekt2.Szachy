@@ -3,6 +3,9 @@ import { Square } from "./square";
 
 export default class ChessBoardPopulator {
 
+    pieceFactory;
+    piecesConfiguration;
+
     constructor(pieceFactory, piecesConfiguration) {
         this.pieceFactory = pieceFactory;
         this.piecesConfiguration = piecesConfiguration;

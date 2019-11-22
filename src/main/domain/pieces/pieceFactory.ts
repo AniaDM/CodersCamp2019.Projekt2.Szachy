@@ -1,4 +1,3 @@
-import Piece from './piece';
 import King from './king';
 import Queen from './queen';
 import Bishop from './bishop';

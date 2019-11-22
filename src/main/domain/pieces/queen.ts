@@ -20,7 +20,7 @@ export default class Queen extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-        };
+        }
         //Vertical up
         for (let i = (currentSquare.row.number - 1); i >= 0; i--) {
             const currentColumn = currentSquare.atY(i);
@@ -31,7 +31,7 @@ export default class Queen extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-        };
+        }
         //Horizontal right
         for (let i = (currentSquare.column.number + 1); i < 8; i++) {
             const currentRow = currentSquare.atX(i);
@@ -42,7 +42,7 @@ export default class Queen extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-        };
+        }
         //Horizontal left
         for (let i = (currentSquare.column.number - 1); i >= 0; i--) {
             const currentRow = currentSquare.atX(i);
@@ -53,7 +53,7 @@ export default class Queen extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-        };
+        }
         //Diagonal moves
         //Up and left
         for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number - 1); i >= 0; i--, j--) {
@@ -67,7 +67,7 @@ export default class Queen extends Piece {
                     break;
                 }
             }
-        };
+        }
         //Down and right
         for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number + 1); i < 8; i++, j++) {
             if (j < 8) {
@@ -80,7 +80,7 @@ export default class Queen extends Piece {
                     break;
                 }
             }
-        };
+        }
         //Down and left
         for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number + 1); i >= 0; i--, j++) {
             if (j < 8) {
@@ -93,7 +93,7 @@ export default class Queen extends Piece {
                     break;
                 }
             }
-        };
+        }
         //Up and right
         for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number - 1); i < 8; i++, j--) {
             if (j >= 0) {
@@ -106,7 +106,7 @@ export default class Queen extends Piece {
                     break;
                 }
             }
-        };
+        }
         //Normal and capture types of moves
         return moves.map(this.toPieceMove(chessBoard));
     };

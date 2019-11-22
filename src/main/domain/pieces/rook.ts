@@ -20,7 +20,7 @@ export default class Rook extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-        };
+        }
         //Vertical up
         for (let i = (currentSquare.row.number - 1); i >= 0; i--) {
             const currentColumn = currentSquare.atY(i);
@@ -31,7 +31,7 @@ export default class Rook extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
-        };
+        }
         //Horizontal right
         for (let i = (currentSquare.column.number + 1); i < 8; i++) {
             const currentRow = currentSquare.atX(i);
@@ -42,7 +42,7 @@ export default class Rook extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-        };
+        }
         //Horizontal left
         for (let i = (currentSquare.column.number - 1); i >= 0; i--) {
             const currentRow = currentSquare.atX(i);
@@ -53,7 +53,7 @@ export default class Rook extends Piece {
             if (this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
-        };
+        }
 
         //Normal and capture types of moves
         return moves.map(this.toPieceMove(chessBoard));

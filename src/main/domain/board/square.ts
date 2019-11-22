@@ -2,6 +2,9 @@ export const SQUARE_ID_SEPARATOR = '-';
 
 export class Square {
 
+    column;
+    row;
+
     static at(column, row) {
         if(typeof column === 'string'){
             column = Column.fromCharacter(column);
@@ -62,6 +65,8 @@ export class Square {
 
 export class Row {
 
+    number;
+
     static fromNumber(rowNumber) {
         return new Row(rowNumber);
     }
@@ -81,6 +86,8 @@ export class Row {
 export const availableColumns = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
 export class Column {
+
+    character;
 
     constructor(columnCharacter) {
         if (!columnCharacter || !Column.isValidColumnCharacter(columnCharacter)) {
