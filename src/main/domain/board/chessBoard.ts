@@ -1,4 +1,4 @@
-import {Column, Row, Square} from "./square";
+import {Column, Row, Square, SquareNumber} from "./square";
 
 const BOARD_SIZE = 8;
 
@@ -7,6 +7,8 @@ const BOARD_SIZE = 8;
  * Niemutowalność zapewnia, że np. szach, gdy otrzyma szachownicę, nie zmieni ułożenia innych pionków.
  */
 export default class ChessBoard {
+
+    board: SquareNumber[][];
 
     constructor(board = ChessBoard._createEmptyBoard()) {
         this.board = board;
@@ -44,7 +46,7 @@ export default class ChessBoard {
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
                 if (this.board[row][col] === pieceToFind) {
-                    return Square.at(Column.fromNumber(col), Row.fromNumber(row));
+                    return Square.at(Column.fromNumber(col as SquareNumber), Row.fromNumber(row as SquareNumber));
                 }
             }
         }
