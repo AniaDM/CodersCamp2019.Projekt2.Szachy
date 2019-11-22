@@ -1,51 +1,57 @@
 import Piece from './piece';
 import {PieceMove} from "./pieceMove";
 import Side from "./side";
+import ChessBoard from "../board/chessBoard";
+import {Column, Row, Square} from "../board/square";
 
 export default class Pawn extends Piece {
 
-    constructor(side) {
+    constructor(side: Side) {
         super(side);
     }
 
-    getAvailableMoves(chessBoard, currentSquare) {
+    getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square) {
         const delta = this.isWhite() ? -1 : 1;
 
-        const singleMoveSquare = chessBoard.squareInBounds(currentSquare.column.number, currentSquare.row.number + delta)
-            ? currentSquare.atY(currentSquare.row.number + delta)
+        const forwardRow = currentSquare.row.number + delta;
+        const singleMoveSquare = Row.isValidRowNumber(forwardRow)
+            ? currentSquare.atY(forwardRow)
             : null;
-        const doubleMoveSquare = this.onStartingRow(currentSquare) && chessBoard.squareInBounds(currentSquare.column.number, currentSquare.row.number + 2 * delta)
-            ? currentSquare.atY(currentSquare.row.number + 2 * delta)
+        const doubleForwardRow = currentSquare.row.number + 2 * delta;
+        const doubleMoveSquare = this.onStartingRow(currentSquare) && Row.isValidRowNumber(doubleForwardRow)
+            ? currentSquare.atY(doubleForwardRow)
             : null;
 
-        let normalMoves;
+        let normalMovesSquares: Square[] = [];
         if (!singleMoveSquare || this.isMoveToSquareImpossible(chessBoard, singleMoveSquare)) {
-            normalMoves = [];
+            normalMovesSquares = [];
         } else if (!doubleMoveSquare || this.isMoveToSquareImpossible(chessBoard, doubleMoveSquare)) {
-            normalMoves = [singleMoveSquare];
+            normalMovesSquares = [singleMoveSquare];
         } else {
-            normalMoves = [singleMoveSquare, doubleMoveSquare];
+            normalMovesSquares = [singleMoveSquare, doubleMoveSquare];
         }
-        normalMoves = normalMoves.map(movableSquare => PieceMove.normalAt(movableSquare));
+        const normalMoves = normalMovesSquares.map(movableSquare => PieceMove.normalAt(movableSquare));
 
-        const captureMoves = [];
-        if(chessBoard.squareInBounds(currentSquare.column.number, currentSquare.row.number + delta)){
-            const atAheadRow = currentSquare.atY(currentSquare.row.number + delta);
-            if (chessBoard.squareInBounds(currentSquare.column.number + 1, atAheadRow.row.number)) {
-                captureMoves.push(atAheadRow.atX(currentSquare.column.number + 1))
+        const captureMoveSquares = [];
+        if(Row.isValidRowNumber(forwardRow)){
+            const atAheadRow = currentSquare.atY(forwardRow);
+            const rightColumn = currentSquare.column.number + 1;
+            if (Column.isValidColumnNumber(rightColumn)) {
+                captureMoveSquares.push(atAheadRow.atX(rightColumn))
             }
-            if (chessBoard.squareInBounds(currentSquare.column.number - 1, atAheadRow.row.number)) {
-                captureMoves.push(atAheadRow.atX(currentSquare.column.number - 1))
+            const leftColumn = currentSquare.column.number - 1;
+            if (Column.isValidColumnNumber(leftColumn)) {
+                captureMoveSquares.push(atAheadRow.atX(leftColumn))
             }
         }
 
-        return captureMoves
+        return captureMoveSquares
             .filter(square => this.canCaptureOnSquare(chessBoard, square))
             .map(capturableSquare => PieceMove.captureAt(capturableSquare))
             .concat(normalMoves);
     }
 
-    onStartingRow(currentSquare) {
+    onStartingRow(currentSquare: Square) {
         if (this.side === Side.WHITE) {
             return currentSquare.row.number === 6;
         } else if (this.side === Side.BLACK) {
@@ -55,15 +61,11 @@ export default class Pawn extends Piece {
         }
     }
 
-    onEndOfTheBoard(currentSquare){
+    onEndOfTheBoard(currentSquare: Square.Number){
         return currentSquare === 0 || currentSquare === 7;
     }
 
-    canCaptureOnSquare(chessBoard, square) {
-        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
-    }
-
-    isMoveToSquareImpossible(chessBoard, square) {
+    isMoveToSquareImpossible(chessBoard: ChessBoard, square: Square) {
         return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
     }
 

@@ -1,8 +1,22 @@
-export default class PiecesConfiguration {
+export type ChessboardPiecesConfig = {
+    white: SidePiecesConfig,
+    black: SidePiecesConfig
+}
 
-    private config;
+export type SidePiecesConfig = {
+    King: string[],
+    Queen: string[],
+    Bishop: string[],
+    Knight: string[],
+    Rook: string[],
+    Pawn: string[]
+}
 
-    constructor(whitePieces, blackPieces) {
+export default abstract class PiecesConfiguration {
+
+    private config: ChessboardPiecesConfig;
+
+    protected constructor(whitePieces: SidePiecesConfig, blackPieces: SidePiecesConfig) {
         this.config = {
             white: whitePieces,
             black: blackPieces

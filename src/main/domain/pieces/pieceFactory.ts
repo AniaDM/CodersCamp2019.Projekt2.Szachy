@@ -4,10 +4,11 @@ import Bishop from './bishop';
 import Knight from './knight';
 import Rook from './rook';
 import Pawn from './pawn';
+import Side from "./side";
 
 export default class PieceFactory {
 
-    createPiece(name, side) {
+    createPiece(name: string, side: Side) {
         switch (name) {
             case 'King':
                 return new King(side);

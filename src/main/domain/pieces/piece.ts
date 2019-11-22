@@ -40,5 +40,19 @@ export default abstract class Piece {
         return this.side !== anotherPiece.side;
     }
 
+    protected canCaptureOnSquare(chessBoard: ChessBoard, square: Square) {
+        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
+    };
+
+    protected toPieceMove(chessBoard: ChessBoard) {
+        return (movableSquare: Square) => {
+            if (this.canCaptureOnSquare(chessBoard, movableSquare)) {
+                return PieceMove.captureAt(movableSquare);
+            } else {
+                return PieceMove.normalAt(movableSquare);
+            }
+        };
+    }
+
 }
 

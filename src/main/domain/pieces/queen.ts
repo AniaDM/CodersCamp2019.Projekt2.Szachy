@@ -1,18 +1,21 @@
 import Piece from './piece';
 import {PieceMove} from "./pieceMove";
+import ChessBoard from "../board/chessBoard";
+import {Square} from "../board/square";
+import Side from "./side";
 
 export default class Queen extends Piece {
 
-    constructor(side) {
+    constructor(side: Side) {
         super(side);
     }
 
-    getAvailableMoves(chessBoard, currentSquare) {
+    getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square) {
         const moves = [];
         //Straight moves
         //Vertical down
         for (let i = (currentSquare.row.number + 1); i < 8; i++) {
-            const currentColumn = currentSquare.atY(i);
+            const currentColumn = currentSquare.atY(i as Square.Number);
             if (chessBoard.squareIsOccupied(currentColumn) && !this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
@@ -23,7 +26,7 @@ export default class Queen extends Piece {
         }
         //Vertical up
         for (let i = (currentSquare.row.number - 1); i >= 0; i--) {
-            const currentColumn = currentSquare.atY(i);
+            const currentColumn = currentSquare.atY(i as Square.Number);
             if (chessBoard.squareIsOccupied(currentColumn) && !this.canCaptureOnSquare(chessBoard, currentColumn)) {
                 break;
             }
@@ -34,7 +37,7 @@ export default class Queen extends Piece {
         }
         //Horizontal right
         for (let i = (currentSquare.column.number + 1); i < 8; i++) {
-            const currentRow = currentSquare.atX(i);
+            const currentRow = currentSquare.atX(i as Square.Number);
             if (chessBoard.squareIsOccupied(currentRow) && !this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
@@ -45,7 +48,7 @@ export default class Queen extends Piece {
         }
         //Horizontal left
         for (let i = (currentSquare.column.number - 1); i >= 0; i--) {
-            const currentRow = currentSquare.atX(i);
+            const currentRow = currentSquare.atX(i as Square.Number);
             if (chessBoard.squareIsOccupied(currentRow) && !this.canCaptureOnSquare(chessBoard, currentRow)) {
                 break;
             }
@@ -58,7 +61,7 @@ export default class Queen extends Piece {
         //Up and left
         for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number - 1); i >= 0; i--, j--) {
             if (j >= 0) {
-                const currentDiagonal = currentSquare.atX(i).atY(j);
+                const currentDiagonal = currentSquare.atX(i  as Square.Number).atY(j as Square.Number);
                 if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
                     break;
                 }
@@ -71,7 +74,7 @@ export default class Queen extends Piece {
         //Down and right
         for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number + 1); i < 8; i++, j++) {
             if (j < 8) {
-                const currentDiagonal = currentSquare.atX(i).atY(j);
+                const currentDiagonal = currentSquare.atX(i as Square.Number).atY(j as Square.Number);
                 if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
                     break;
                 }
@@ -84,7 +87,7 @@ export default class Queen extends Piece {
         //Down and left
         for (let i = (currentSquare.column.number - 1), j = (currentSquare.row.number + 1); i >= 0; i--, j++) {
             if (j < 8) {
-                const currentDiagonal = currentSquare.atX(i).atY(j);
+                const currentDiagonal = currentSquare.atX(i as Square.Number).atY(j as Square.Number);
                 if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
                     break;
                 }
@@ -97,7 +100,7 @@ export default class Queen extends Piece {
         //Up and right
         for (let i = (currentSquare.column.number + 1), j = (currentSquare.row.number - 1); i < 8; i++, j--) {
             if (j >= 0) {
-                const currentDiagonal = currentSquare.atX(i).atY(j);
+                const currentDiagonal = currentSquare.atX(i as Square.Number).atY(j as Square.Number);
                 if (chessBoard.squareIsOccupied(currentDiagonal) && !this.canCaptureOnSquare(chessBoard, currentDiagonal)) {
                     break;
                 }
@@ -109,21 +112,6 @@ export default class Queen extends Piece {
         }
         //Normal and capture types of moves
         return moves.map(this.toPieceMove(chessBoard));
-    };
-
-    toPieceMove(chessBoard) {
-        return movableSquare => {
-            if (this.canCaptureOnSquare(chessBoard, movableSquare)) {
-                return PieceMove.captureAt(movableSquare);
-            } else {
-                return PieceMove.normalAt(movableSquare);
-            }
-        };
-    }
-
-    //Check if square is occupied and piece capturable
-    canCaptureOnSquare(chessBoard, square) {
-        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
     };
 
 }

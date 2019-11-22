@@ -1,18 +1,5 @@
-import PiecesConfiguration from "../../domain/pieces/piecesConfiguration";
+import PiecesConfiguration, {ChessboardPiecesConfig} from "../../domain/pieces/piecesConfiguration";
 
-export type ChessboardPiecesConfig = {
-    white: SidePiecesConfig,
-    black: SidePiecesConfig
-}
-
-export type SidePiecesConfig = {
-    King: string[],
-    Queen: string[],
-    Bishop: string[],
-    Knight: string[],
-    Rook: string[],
-    Pawn: string[]
-}
 
 const DEFAULT_START_CONFIG: ChessboardPiecesConfig = {
     white: {

@@ -1,14 +1,17 @@
 import Piece from './piece';
 import {PieceMove} from "./pieceMove";
+import Side from "./side";
+import ChessBoard from "../board/chessBoard";
+import {Square} from "../board/square";
 
 
 export default class Bishop extends Piece {
 
-    constructor(side) {
+    constructor(side: Side) {
         super(side);
     }
 
-    getAvailableMoves(chessBoard, currentSquare) {
+    getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square) {
         let normalMoves = [];
         console.log(`column = ${currentSquare.column.number}, row = ${currentSquare.row.number}`);
 
@@ -107,7 +110,4 @@ export default class Bishop extends Piece {
         return normalMoves;
     };
 
-    canCaptureOnSquare(chessBoard, square) {
-        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
-    };
 };

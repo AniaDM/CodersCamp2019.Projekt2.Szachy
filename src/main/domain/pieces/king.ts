@@ -33,11 +33,11 @@ export default class King extends Piece {
             .concat(captureMoves);
     }
 
-    canCaptureOnSquare(chessBoard: ChessBoard, square: Square) {
+    private canCaptureOnSquare(chessBoard: ChessBoard, square: Square) {
         return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
     }
 
-    isMoveToSquareImpossible(chessBoard: ChessBoard, square: Square) {
+    private isMoveToSquareImpossible(chessBoard: ChessBoard, square: Square) {
         return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
     }
 }

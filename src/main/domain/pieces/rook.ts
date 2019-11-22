@@ -69,9 +69,4 @@ export default class Rook extends Piece {
         };
     }
 
-    //Check if square is occupied and piece capturable
-    canCaptureOnSquare(chessBoard, square) {
-        return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
-    };
-
 }
