@@ -8,7 +8,7 @@ export default class Rook extends Piece {
     }
 
     getAvailableMoves(chessBoard, currentSquare) {
-      /*  const moves = [];
+        const moves = [];
         //Straight moves
         //Vertical down
         for (let i = (currentSquare.row.number + 1); i < 8; i++) {
@@ -56,7 +56,7 @@ export default class Rook extends Piece {
         };
 
         //Normal and capture types of moves
-        return moves.map(this.toPieceMove(chessBoard));*/
+        return moves.map(this.toPieceMove(chessBoard));
     };
 
     toPieceMove(chessBoard) {

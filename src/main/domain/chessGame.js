@@ -103,7 +103,6 @@ export default class ChessGame {
         
     }
     notLegalMove(piece,square, targetSquare){
-        console.log("notLegalMove");
         this.chessBoard = this.chessBoard.movePiece(piece,square, targetSquare);
         const afterMoveIsKingChecked=this.kingIsChecked();
         this.chessBoard = this.chessBoard.movePiece(piece,targetSquare,square);
