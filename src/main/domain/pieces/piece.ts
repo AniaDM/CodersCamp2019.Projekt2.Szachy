@@ -1,10 +1,13 @@
 import Side from './side';
+import {PieceMove} from "./pieceMove";
+import ChessBoard from "../board/chessBoard";
+import {Square} from "../board/square";
 
-export default class Piece {
+export default abstract class Piece {
 
-    side;
+    side: Side;
 
-    constructor(side) {
+    protected constructor(side: Side) {
         if (side !== Side.WHITE && side !== Side.BLACK) {
             throw new TypeError('Side must be White or Black!')
         }
@@ -19,9 +22,7 @@ export default class Piece {
         this.side = side;
     }
 
-    getAvailableMoves(chessBoard, currentSquare) {
-        return [];
-    }
+    abstract getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square): PieceMove[];
 
     get name() {
         return this.constructor.name;
@@ -35,7 +36,7 @@ export default class Piece {
         return this.side === Side.BLACK;
     }
 
-    isCapturableBy(anotherPiece) {
+    isCapturableBy(anotherPiece: Piece) {
         return this.side !== anotherPiece.side;
     }
 

@@ -4,9 +4,9 @@ import King from '../../../main/domain/pieces/king';
 import Side from "../../../main/domain/pieces/side";
 import {staringChessBoard} from "../../fixtures";
 import {Square} from "../../../main/domain/board/square";
-import {PieceMove,MoveType} from "../../../main/domain/pieces/pieceMove";
+import {PieceMove, MoveType} from "../../../main/domain/pieces/pieceMove";
 
-describe('moves of piece king',  () => {
+describe('moves of piece king', () => {
 
     const kingName = 'King';
     const whiteKing = new King(Side.WHITE);
@@ -26,7 +26,7 @@ describe('moves of piece king',  () => {
             Bishop: ['C8', 'F8'],
             Knight: ['B8', 'G8'],
             Rook: ['A8', 'H8'],
-            Pawn: ['A7','B7', 'C7', 'F7', 'G7', 'H7']
+            Pawn: ['A7', 'B7', 'C7', 'F7', 'G7', 'H7']
         }
     };
     describe('white king', () => {
@@ -44,11 +44,11 @@ describe('moves of piece king',  () => {
             const startingKingSquare = Square.at("E", 0);
             const kingOnBoard = startingBoard.getPiece(startingKingSquare);
             const availableSquaresToMove = kingOnBoard.getAvailableMoves(startingBoard, startingKingSquare)
-                .map(availableMove => availableMove.square);
+                .map((availableMove: PieceMove) => availableMove.square);
 
             expect(availableSquaresToMove).to.have.lengthOf(2);
-            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 1),Square.at("D", 1)]);
-        });        
+            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 1), Square.at("D", 1)]);
+        });
 
 
         it('can move in eight directions', () => {
@@ -58,9 +58,9 @@ describe('moves of piece king',  () => {
             const kingOnBoard = startingBoard.getPiece(startingKingSquare);
             const boardAfterMove = startingBoard.movePiece(kingOnBoard, startingKingSquare, kingSquareToMove);
             const availableSquaresToMove = kingOnBoard.getAvailableMoves(boardAfterMove, kingSquareToMove)
-            .map(availableMove => availableMove.square);
+                .map((availableMove: PieceMove) => availableMove.square);
             expect(availableSquaresToMove).to.have.lengthOf(8);
-            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 3),Square.at("E", 5),Square.at("D", 3),Square.at("D", 4),Square.at("D", 5),Square.at("F", 3),Square.at("F", 4),Square.at("F", 5)]);
+            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 3), Square.at("E", 5), Square.at("D", 3), Square.at("D", 4), Square.at("D", 5), Square.at("F", 3), Square.at("F", 4), Square.at("F", 5)]);
         });
 
         it('can attack in all avaiable directions', () => {
@@ -71,14 +71,14 @@ describe('moves of piece king',  () => {
             const boardAfterMove = startingBoard.movePiece(kingOnBoard, startingKingSquare, kingSquareToMove);
 
             const moves = kingOnBoard.getAvailableMoves(boardAfterMove, kingSquareToMove);
-            const captureMoves = moves.filter(move => move.type == MoveType.CAPTURE);
+            const captureMoves = moves.filter((move: PieceMove) => move.type == MoveType.CAPTURE);
             expect(captureMoves).to.have.lengthOf(3);
             expect(captureMoves).to.have.deep.members([PieceMove.captureAt(Square.at("A", 6)), PieceMove.captureAt(Square.at("B", 6)), PieceMove.captureAt(Square.at("C", 6))]);
         });
-        
+
     });
 
-     describe('black king', () => {
+    describe('black king', () => {
 
         it(`should be named ${kingName}`, () => {
             expect(blackKing.name).to.equal(kingName);
@@ -93,11 +93,11 @@ describe('moves of piece king',  () => {
             const startingKingSquare = Square.at("E", 7);
             const kingOnBoard = startingBoard.getPiece(startingKingSquare);
             const availableSquaresToMove = kingOnBoard.getAvailableMoves(startingBoard, startingKingSquare)
-                .map(availableMove => availableMove.square);
+                .map((availableMove: PieceMove) => availableMove.square);
 
             expect(availableSquaresToMove).to.have.lengthOf(2);
-            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 6),Square.at("D", 6)]);
-        });        
+            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 6), Square.at("D", 6)]);
+        });
 
 
         it('can move in eight directions', () => {
@@ -107,9 +107,9 @@ describe('moves of piece king',  () => {
             const kingOnBoard = startingBoard.getPiece(startingKingSquare);
             const boardAfterMove = startingBoard.movePiece(kingOnBoard, startingKingSquare, kingSquareToMove);
             const availableSquaresToMove = kingOnBoard.getAvailableMoves(boardAfterMove, kingSquareToMove)
-            .map(availableMove => availableMove.square);
+                .map((availableMove: PieceMove) => availableMove.square);
             expect(availableSquaresToMove).to.have.lengthOf(8);
-            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 3),Square.at("E", 5),Square.at("D", 3),Square.at("D", 4),Square.at("D", 5),Square.at("F", 3),Square.at("F", 4),Square.at("F", 5)]);
+            expect(availableSquaresToMove).to.have.deep.members([Square.at("E", 3), Square.at("E", 5), Square.at("D", 3), Square.at("D", 4), Square.at("D", 5), Square.at("F", 3), Square.at("F", 4), Square.at("F", 5)]);
         });
 
         it('can attack in all avaiable directions', () => {
@@ -120,11 +120,11 @@ describe('moves of piece king',  () => {
             const boardAfterMove = startingBoard.movePiece(kingOnBoard, startingKingSquare, kingSquareToMove);
 
             const moves = kingOnBoard.getAvailableMoves(boardAfterMove, kingSquareToMove);
-            const captureMoves = moves.filter(move => move.type == MoveType.CAPTURE);
+            const captureMoves = moves.filter((move: PieceMove) => move.type == MoveType.CAPTURE);
             expect(captureMoves).to.have.lengthOf(3);
             expect(captureMoves).to.have.deep.members([PieceMove.captureAt(Square.at("A", 1)), PieceMove.captureAt(Square.at("B", 1)), PieceMove.captureAt(Square.at("C", 1))]);
         });
-        
+
     });
 
 });

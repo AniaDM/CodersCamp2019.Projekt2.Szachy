@@ -1,19 +1,24 @@
-import {PieceMove} from "./pieceMove";
 import Piece from "./piece";
+import Side from "./side";
+import ChessBoard from "../board/chessBoard";
+import {Column, Row, Square} from "../board/square";
+import {PieceMove} from "./pieceMove";
 
 export default class King extends Piece {
 
-    constructor(side) {
+    constructor(side: Side) {
         super(side);
     }
 
-    getAvailableMoves(chessBoard, currentSquare) {
+    getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square): PieceMove[] {
         const deltas = [[-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]];
         let normalMoves = [];
         let captureMoves = [];
         for (let delta of deltas) {
-            let moveSquare = chessBoard.squareInBounds(currentSquare.column.number + delta[0], currentSquare.row.number + delta[1])
-                ? currentSquare.atY(currentSquare.row.number + delta[1]).atX(currentSquare.column.number + delta[0])
+            const y = currentSquare.row.number + delta[1];
+            const x = currentSquare.column.number + delta[0];
+            let moveSquare = Row.isValidRowNumber(y) && Column.isValidColumnNumber(x)
+                ? currentSquare.atY(y).atX(x)
                 : null;
             if (moveSquare && !this.isMoveToSquareImpossible(chessBoard, moveSquare)) {
                 normalMoves.push(moveSquare);
@@ -28,11 +33,11 @@ export default class King extends Piece {
             .concat(captureMoves);
     }
 
-    canCaptureOnSquare(chessBoard, square) {
+    canCaptureOnSquare(chessBoard: ChessBoard, square: Square) {
         return chessBoard.squareIsOccupied(square) && chessBoard.getPiece(square).isCapturableBy(this);
     }
 
-    isMoveToSquareImpossible(chessBoard, square) {
+    isMoveToSquareImpossible(chessBoard: ChessBoard, square: Square) {
         return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
     }
 }

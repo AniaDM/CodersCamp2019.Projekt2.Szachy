@@ -2,7 +2,7 @@
   "name": "CodersCamp2019.Projekt2.Chess",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
     "start": "webpack-dev-server --watch",
     "build": "webpack --mode production",
