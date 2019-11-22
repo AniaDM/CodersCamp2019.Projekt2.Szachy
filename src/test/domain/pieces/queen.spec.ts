@@ -1,24 +1,10 @@
-import {
-    describe,
-    it
-} from "mocha";
-import {
-    expect,
-    assert
-} from 'chai';
+import {describe, it} from "mocha";
+import {expect, assert} from 'chai';
 import Queen from '../../../main/domain/pieces/queen';
 import Side from "../../../main/domain/pieces/side";
-import {
-    emptyChessBoard,
-    staringChessBoard
-} from "../../fixtures";
-import {
-    Square
-} from "../../../main/domain/board/square";
-import {
-    PieceMove,
-    MoveType
-} from "../../../main/domain/pieces/pieceMove";
+import {staringChessBoard} from "../../fixtures";
+import {Square} from "../../../main/domain/board/square";
+import {PieceMove, MoveType} from "../../../main/domain/pieces/pieceMove";
 
 const startConfigForCapture = {
     white: {
@@ -74,12 +60,12 @@ describe('Queen', () => {
         for (let i = 0; i < moves.lenght - 1; i++) {
             let rowNumber = moves[i].square.row.number;
             assert.isBelow(rowNumber, 8, 'row is less than 8')
-        };
+        }
 
         for (let i = 0; i < moves.lenght - 1; i++) {
             let columnNumber = moves[i].square.column.number;
             assert.isBelow(columnNumber, 8, 'column is less than 8')
-        };
+        }
     });
 
     it('can move if there is a piece to capture', () => {
