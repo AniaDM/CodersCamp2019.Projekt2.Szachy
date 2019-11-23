@@ -9,7 +9,7 @@ const BOARD_SIZE = 8;
  */
 export default class ChessBoard {
 
-    board: (Piece | undefined)[][];
+    readonly board: (Piece | undefined)[][];
 
     constructor(board = ChessBoard.createEmptyBoard()) {
         this.board = board;

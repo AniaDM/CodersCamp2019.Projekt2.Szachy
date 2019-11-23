@@ -10,7 +10,7 @@ import {isPieceName, PieceName} from "./pieces/pieceName";
 
 export default class ChessGame {
 
-    gameHistory: GameState[] = [];
+    readonly gameHistory: GameState[] = [];
     chessBoard: ChessBoard;
 
     currentSide = Side.WHITE;

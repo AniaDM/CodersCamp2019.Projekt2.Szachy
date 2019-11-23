@@ -16,8 +16,8 @@ const CSS_AVAILABLE_MOVE_CLASS_NAME = 'available-move';
 
 export default class ChessBoardView {
 
-    pieceMapper: PieceMapper;
-    chessGame: ChessGame;
+    readonly pieceMapper: PieceMapper;
+    readonly chessGame: ChessGame;
 
     constructor(pieceMapper: PieceMapper, chessGame: ChessGame) {
         this.pieceMapper = pieceMapper;

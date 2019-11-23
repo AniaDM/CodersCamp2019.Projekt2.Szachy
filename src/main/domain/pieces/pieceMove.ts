@@ -2,8 +2,8 @@ import {Square} from "../board/square";
 
 export class PieceMove {
 
-    type: MoveType;
-    square: Square;
+    readonly type: MoveType;
+    readonly square: Square;
 
     private constructor(type: MoveType, square: Square) {
         this.type = type;

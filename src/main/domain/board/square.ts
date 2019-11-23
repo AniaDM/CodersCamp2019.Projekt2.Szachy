@@ -1,10 +1,8 @@
-import type = Mocha.utils.type;
-
 export const SQUARE_ID_SEPARATOR = '-';
 
 export class Square {
-    column: Column;
-    row: Row;
+    readonly column: Column;
+    readonly row: Row;
 
     private constructor(column: Column, row: Row) {
         this.column = column;
@@ -80,7 +78,7 @@ export namespace Square {
 
 export class Row {
 
-    number: Square.Number;
+    readonly number: Square.Number;
 
     static fromNumber(rowNumber: Square.Number): Row {
         return new Row(rowNumber);
@@ -104,8 +102,8 @@ export type ColumnCharacter = LowerCaseColumnCharacter | UpperCaseColumnCharacte
 
 export class Column {
 
-    character: ColumnCharacter;
-    number: Square.Number;
+    readonly character: ColumnCharacter;
+    readonly number: Square.Number;
 
     constructor(columnCharacter: ColumnCharacter) {
         this.character = columnCharacter;

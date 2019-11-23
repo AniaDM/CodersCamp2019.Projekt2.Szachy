@@ -6,7 +6,7 @@ import {PieceName} from "./pieceName";
 
 export default abstract class Piece {
 
-    side: Side;
+    readonly side: Side;
 
     protected constructor(side: Side) {
         this.side = side;
