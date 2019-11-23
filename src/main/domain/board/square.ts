@@ -102,13 +102,14 @@ type UpperCaseColumnCharacter = typeof Square.uppercaseAvailableColumns[number]
 export type ColumnCharacter = LowerCaseColumnCharacter | UpperCaseColumnCharacter;
 
 
-
 export class Column {
 
     character: ColumnCharacter;
+    number: Square.Number;
 
     constructor(columnCharacter: ColumnCharacter) {
         this.character = columnCharacter;
+        this.number = Square.lowercaseAvailableColumns.indexOf(this.character.toLowerCase() as LowerCaseColumnCharacter) as Square.Number;
     }
 
     static fromNumber(columnNumber: Square.Number): Column {
@@ -116,19 +117,15 @@ export class Column {
     }
 
     static fromCharacter(columnCharacter: ColumnCharacter): Column {
-        return new Column(columnCharacter);
+        return new Column(columnCharacter.toUpperCase() as ColumnCharacter);
     }
 
     static isValidColumnCharacter(columnCharacter: any): columnCharacter is ColumnCharacter {
-        return columnCharacter === "string" && Square.lowercaseAvailableColumns.includes(columnCharacter.toLowerCase());
+        return typeof columnCharacter === "string" && Square.lowercaseAvailableColumns.includes(columnCharacter.toLowerCase() as LowerCaseColumnCharacter);
     }
 
     static isValidColumnNumber(columnNumber: any): columnNumber is Square.Number {
         return Square.availableNumber.includes(columnNumber);
-    }
-
-    get number(): Square.Number {
-        return Square.lowercaseAvailableColumns.indexOf(this.character.toLowerCase() as LowerCaseColumnCharacter) as Square.Number;
     }
 
 }

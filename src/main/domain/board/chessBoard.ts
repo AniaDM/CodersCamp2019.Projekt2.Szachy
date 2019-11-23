@@ -11,7 +11,7 @@ export default class ChessBoard {
 
     board: (Piece | undefined)[][];
 
-    constructor(board = ChessBoard._createEmptyBoard()) {
+    constructor(board = ChessBoard.createEmptyBoard()) {
         this.board = board;
     }
 
@@ -19,7 +19,7 @@ export default class ChessBoard {
         return new ChessBoard();
     }
 
-    static _createEmptyBoard() {
+    private static createEmptyBoard() {
         const board = new Array(BOARD_SIZE);
         for (let i = 0; i < board.length; i++) {
             board[i] = new Array(BOARD_SIZE);
@@ -39,7 +39,7 @@ export default class ChessBoard {
         return clone;
     }
 
-    getPiece(square: Square) {
+    getPiece(square: Square): Piece {
         return this.board[square.row.number][square.column.number];
     }
 

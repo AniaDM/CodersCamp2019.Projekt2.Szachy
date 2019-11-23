@@ -6,7 +6,10 @@
   "scripts": {
     "start": "webpack-dev-server --watch",
     "build": "webpack --mode production",
-    "test": "mocha -r ts-node/register -r @babel/register './src/test/**/*.spec.ts'"
+    "test": "mocha -r ts-node/register -r @babel/register './src/test/**/*.spec.ts'",
+    "test-king": "mocha -r ts-node/register -r @babel/register './src/test/**/king.spec.ts'",
+    "test-pawn": "mocha -r ts-node/register -r @babel/register './src/test/**/pawn.spec.ts'",
+    "test-queen": "mocha -r ts-node/register -r @babel/register './src/test/**/queen.spec.ts'"
   },
   "keywords": [],
   "author": "",

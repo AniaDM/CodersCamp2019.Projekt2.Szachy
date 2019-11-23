@@ -4,6 +4,7 @@ import {PieceMapper} from "./pieceMapper";
 import ChessGame from "../domain/chessGame";
 import {PieceMoved} from "../domain/board/move";
 import {PieceMove} from "../domain/pieces/pieceMove";
+import {isPieceName} from "../domain/pieces/pieceName";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -97,8 +98,14 @@ export default class ChessBoardView {
 
     private showPromoteModal(pawnSquare: Square) {
         const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook");
-        const promoted = this.chessGame.promotePawn(pawnSquare, newPiece);
-        this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
+        const newPieceName = newPiece.charAt(0).toUpperCase() + newPiece.slice(1);
+        if (isPieceName(newPieceName) && newPieceName !== "Pawn") {
+            const promoted = this.chessGame.promotePawn(pawnSquare, newPieceName);
+            this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
+        } else {
+            alert("Invalid piece name: " + newPiece);
+            this.showPromoteModal(pawnSquare);
+        }
     }
 
 

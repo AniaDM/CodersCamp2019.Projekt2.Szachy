@@ -21,7 +21,7 @@ describe('Square on board', () => {
         Square.lowercaseAvailableColumns.forEach(columnCharacter => {
             it(`can be a "${columnCharacter}" letter`, () => {
                 const column = Column.fromCharacter(columnCharacter);
-                expect(column.character).to.equal(columnCharacter);
+                expect(column.character).to.equal(columnCharacter.toUpperCase());
                 expect(column.number).to.equal(Square.lowercaseAvailableColumns.indexOf(columnCharacter));
             })
         });
@@ -35,7 +35,7 @@ describe('Square on board', () => {
         });
 
         Square.availableNumber.forEach(number => {
-            const columnCharacter = Square.lowercaseAvailableColumns[number];
+            const columnCharacter = Square.uppercaseAvailableColumns[number];
             it(`can be a number ${number}, which is column ${columnCharacter}`, () => {
                 const column = Column.fromNumber(number);
                 expect(column.character).to.equal(columnCharacter);

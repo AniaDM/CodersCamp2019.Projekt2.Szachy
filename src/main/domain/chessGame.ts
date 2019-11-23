@@ -6,7 +6,7 @@ import Piece from "./pieces/piece";
 import {Square} from "./board/square";
 import {PieceMove} from "./pieces/pieceMove";
 import Pawn from "./pieces/pawn";
-import {isPieceName} from "./pieces/pieceName";
+import {isPieceName, PieceName} from "./pieces/pieceName";
 
 export default class ChessGame {
 
@@ -128,7 +128,7 @@ export default class ChessGame {
         return this.chessBoard;
     }
 
-    promotePawn(pawnSquare: Square, newPiece: string): Piece | undefined {
+    promotePawn(pawnSquare: Square, newPiece: PieceName): Piece | undefined {
         const pawnPiece = "Pawn";
         const pieceOnTheEnd = this.findPieceBySquare(pawnSquare);
         const isBlackPawnOnTheEndOfTheBoard = pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.BLACK && pawnSquare.row.number === 7;

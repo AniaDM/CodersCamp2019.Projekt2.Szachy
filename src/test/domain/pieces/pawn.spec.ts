@@ -26,6 +26,7 @@ describe('Pawn', () => {
             const startingBoard = staringChessBoard();
             const startingPawnSquare = Square.at("B", 1);
             const pawnOnBoard = startingBoard.getPiece(startingPawnSquare);
+            console.log(startingBoard);
             const availableSquaresToMove = pawnOnBoard.getAvailableMoves(startingBoard, startingPawnSquare)
                 .map(availableMove => availableMove.square);
 
