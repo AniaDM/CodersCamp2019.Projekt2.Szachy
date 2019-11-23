@@ -29,7 +29,7 @@ export default class ChessBoard {
 
     movePiece(piece: Piece, from: Square, to: Square) {
         return this._cloneBoard()
-            .setPiece(from, undefined)
+            .removePieceFrom(from)
             .setPiece(to, piece);
     }
 
@@ -39,8 +39,14 @@ export default class ChessBoard {
         return clone;
     }
 
+    removePieceFrom(square: Square) {
+        const clone = this._cloneBoard();
+        clone.board[square.row.number][square.column.number] = undefined;
+        return clone;
+    }
+
     getPiece(square: Square): Piece {
-        return this.board[square.row.number][square.column.number];
+        return this.board[square.row.number][square.column.number]!;
     }
 
     findPieceSquare(pieceToFind: Piece) {

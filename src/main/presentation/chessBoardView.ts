@@ -5,6 +5,8 @@ import ChessGame from "../domain/chessGame";
 import {PieceMoved} from "../domain/board/move";
 import {PieceMove} from "../domain/pieces/pieceMove";
 import {isPieceName} from "../domain/pieces/pieceName";
+import {isDefined, isNotNull} from "../domain/utils";
+import Piece from "../domain/pieces/piece";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -36,32 +38,32 @@ export default class ChessBoardView {
                 squareView.innerHTML = piece ? this.pieceMapper.toIcon(piece.name, piece.side) : '';
                 squareView.className = 'square';
                 squareView.className += row % 2 == column % 2 ? ' light' : ' dark';
-                this.boardHtmlElement().appendChild(squareView);
+                this.boardHtmlElement()!.appendChild(squareView);
             }
         }
     }
 
     private clearChessBoard() {
-        while (this.boardHtmlElement().firstChild) {
-            this.boardHtmlElement().removeChild(this.boardHtmlElement().firstChild);
+        while (this.boardHtmlElement()!.firstChild) {
+            this.boardHtmlElement()!.removeChild(this.boardHtmlElement().firstChild!);
         }
     }
 
     private boardHtmlElement() {
-        return document.getElementById('board');
+        return document.getElementById('board')!;
     }
 
     private registerBoardClickListener() {
-        this.boardHtmlElement().addEventListener('click', this.boardTouched.bind(this))
+        this.boardHtmlElement()!.addEventListener('click', this.boardTouched.bind(this))
     }
 
 
     private registerUndoButtonClickListener() {
-        document.querySelector("#undoBtn").addEventListener("click", this.undoLastMove.bind(this));
+        document.querySelector("#undoBtn")!.addEventListener("click", this.undoLastMove.bind(this));
     }
 
     private makeTheIcon(pieceToChangeId: string, pieceName: string, pieceSide: Side) {
-        document.getElementById(pieceToChangeId).innerHTML = this.pieceMapper.toIcon(pieceName, pieceSide);
+        document.getElementById(pieceToChangeId)!.innerHTML = this.pieceMapper.toIcon(pieceName, pieceSide);
 
     }
 
@@ -73,7 +75,7 @@ export default class ChessBoardView {
             this.chessGame.moveSelectedPieceTo(
                 targetSquareToMoveSelectedPiece,
                 pieceMoved => {
-                    document.getElementById(pieceMoved.from.id).innerHTML = '';
+                    document.getElementById(pieceMoved.from.id)!.innerHTML = '';
                     this.makeTheIcon(pieceMoved.to.id, pieceMoved.piece.name, pieceMoved.piece.side);
                     this.hideAvailableMoves(pieceMoved.availableMoves);
                     console.log(pieceMoved);
@@ -98,16 +100,25 @@ export default class ChessBoardView {
 
     private showPromoteModal(pawnSquare: Square) {
         const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook");
-        const newPieceName = newPiece.charAt(0).toUpperCase() + newPiece.slice(1);
-        if (isPieceName(newPieceName) && newPieceName !== "Pawn") {
-            const promoted = this.chessGame.promotePawn(pawnSquare, newPieceName);
-            this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
+        if (isNotNull(newPiece)) {
+            const newPieceName = newPiece!.charAt(0).toUpperCase() + newPiece!.slice(1);
+            if (isPieceName(newPieceName) && newPieceName !== "Pawn") {
+                const promoted = this.chessGame.promotePawn(pawnSquare, newPieceName);
+                this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
+            } else {
+                this.showInvalidPieceNameAlert(newPiece, pawnSquare);
+            }
         } else {
-            alert("Invalid piece name: " + newPiece);
-            this.showPromoteModal(pawnSquare);
+            this.showInvalidPieceNameAlert(newPiece, pawnSquare);
         }
+
     }
 
+
+    private showInvalidPieceNameAlert(newPiece: string | null, pawnSquare: Square) {
+        alert("Invalid piece name: " + newPiece);
+        this.showPromoteModal(pawnSquare);
+    }
 
     private selectPieceToMove(clickEvent: MouseEvent) {
         const selectedSquare = this.clickedSquare(clickEvent);
@@ -132,7 +143,7 @@ export default class ChessBoardView {
 
     private showAvailableMoves(moves: PieceMove[]) {
         for (let move of moves) {
-            document.getElementById(move.square.id).classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
+            document.getElementById(move.square.id)!.classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
         }
     }
 
@@ -140,7 +151,7 @@ export default class ChessBoardView {
         if (availableMoves) {
             availableMoves.forEach(move => {
                     const squareId = move.square.id;
-                    document.getElementById(squareId).classList.remove(CSS_AVAILABLE_MOVE_CLASS_NAME);
+                    document.getElementById(squareId)!.classList.remove(CSS_AVAILABLE_MOVE_CLASS_NAME);
                 }
             );
         }

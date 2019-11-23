@@ -35,7 +35,7 @@ export default class ChessGame {
         if (this.isSelectable(piece)) {
             const availableMoves = piece.getAvailableMoves(this.chessBoard, square);
             if (availableMoves.length === 0) {
-                return null;
+                return undefined;
             }
             this._selectPiece(piece, square, availableMoves);
             return {piece, availableMoves}
@@ -52,21 +52,21 @@ export default class ChessGame {
         if (!this.isPieceToMoveSelected() && pieceNotMovedCallback) {
             pieceNotMovedCallback(
                 {
-                    piece: this.selected.piece,
-                    availableMoves: pieceAvailableMoves,
-                    from: this.selected.square,
+                    piece: this.selected.piece!,
+                    availableMoves: pieceAvailableMoves!,
+                    from: this.selected.square!,
                     to: targetSquare,
                     reason: 'Piece to move not selected!'
                 }
             );
         }
-        const targetIsAvailableToMove = pieceAvailableMoves.map(move => move.square.id).includes(targetSquare.id);
+        const targetIsAvailableToMove = pieceAvailableMoves!.map(move => move.square.id).includes(targetSquare.id);
         if (!targetIsAvailableToMove && pieceNotMovedCallback) {
             pieceNotMovedCallback(
                 {
-                    piece: this.selected.piece,
-                    availableMoves: pieceAvailableMoves,
-                    from: this.selected.square,
+                    piece: this.selected.piece!,
+                    availableMoves: pieceAvailableMoves!,
+                    from: this.selected.square!,
                     to: targetSquare,
                     reason: 'Selected square is not available for the piece!'
                 }
@@ -74,12 +74,12 @@ export default class ChessGame {
         } else {
             this._saveHistory();
 
-            this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
+            this.chessBoard = this.chessBoard.movePiece(this.selected.piece!, this.selected.square!, targetSquare);
             if (pieceMovedCallback) {
                 pieceMovedCallback({
-                    piece: this.selected.piece,
-                    availableMoves: pieceAvailableMoves,
-                    from: this.selected.square,
+                    piece: this.selected.piece!,
+                    availableMoves: pieceAvailableMoves!,
+                    from: this.selected.square!,
                     to: targetSquare
                 });
             }
@@ -99,9 +99,9 @@ export default class ChessGame {
 
     _clearSelection() {
         this.selected = {
-            piece: null,
-            square: null,
-            availableMoves: null
+            piece: undefined,
+            square: undefined,
+            availableMoves: undefined
         };
     }
 
@@ -128,7 +128,7 @@ export default class ChessGame {
         return this.chessBoard;
     }
 
-    promotePawn(pawnSquare: Square, newPiece: PieceName): Piece | undefined {
+    promotePawn(pawnSquare: Square, newPiece: PieceName): Piece {
         const pawnPiece = "Pawn";
         const pieceOnTheEnd = this.findPieceBySquare(pawnSquare);
         const isBlackPawnOnTheEndOfTheBoard = pieceOnTheEnd.name === pawnPiece && pieceOnTheEnd.side === Side.BLACK && pawnSquare.row.number === 7;
@@ -140,7 +140,7 @@ export default class ChessGame {
             this.chessBoard = this.chessBoard.setPiece(pawnSquare, promotedPawn);
             return promotedPawn
         }
-        return undefined;
+        throw new Error("Piece is not on the end of the board!")
     }
 
     undoLastMove() {
