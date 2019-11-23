@@ -10,11 +10,11 @@ import {isPieceName, PieceName} from "./pieces/pieceName";
 
 export default class ChessGame {
 
-    readonly gameHistory: GameState[] = [];
-    chessBoard: ChessBoard;
+    private readonly gameHistory: GameState[] = [];
+    private chessBoard: ChessBoard;
 
-    currentSide = Side.WHITE;
-    selected: Selected = {};
+    private currentSide = Side.WHITE;
+    private selected: Selected = {};
 
     static newGame(chessBoard: ChessBoard) {
         return new ChessGame(chessBoard);
@@ -24,8 +24,7 @@ export default class ChessGame {
         this.chessBoard = chessBoard;
     }
 
-
-    toggleCurrentSide() {
+    private toggleCurrentSide() {
         this.currentSide === Side.WHITE ? (this.currentSide = Side.BLACK) : (this.currentSide = Side.WHITE);
         return this.currentSide;
     }
@@ -37,7 +36,7 @@ export default class ChessGame {
             if (availableMoves.length === 0) {
                 return undefined;
             }
-            this._selectPiece(piece, square, availableMoves);
+            this.selectPiece(piece, square, availableMoves);
             return {piece, availableMoves}
         }
         return undefined;
@@ -72,7 +71,7 @@ export default class ChessGame {
                 }
             );
         } else {
-            this._saveHistory();
+            this.saveHistory();
 
             this.chessBoard = this.chessBoard.movePiece(this.selected.piece!, this.selected.square!, targetSquare);
             if (pieceMovedCallback) {
@@ -86,10 +85,10 @@ export default class ChessGame {
             this.toggleCurrentSide();
         }
 
-        this._clearSelection();
+        this.clearSelection();
     }
 
-    _saveHistory() {
+    private saveHistory() {
         this.gameHistory.push({
             side: this.currentSide,
             chessBoard: this.chessBoard,
@@ -97,7 +96,7 @@ export default class ChessGame {
         });
     }
 
-    _clearSelection() {
+    private clearSelection() {
         this.selected = {
             piece: undefined,
             square: undefined,
@@ -106,13 +105,13 @@ export default class ChessGame {
     }
 
 
-    _selectPiece(piece: Piece, square: Square, availableMoves: PieceMove[]) {
+    private selectPiece(piece: Piece, square: Square, availableMoves: PieceMove[]) {
         this.selected.piece = piece;
         this.selected.square = square;
         this.selected.availableMoves = availableMoves;
     }
 
-    isSelectable(piece: Piece) {
+    private isSelectable(piece: Piece) {
         return piece && piece.side === this.currentSide;
     }
 

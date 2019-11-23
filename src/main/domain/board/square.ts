@@ -84,7 +84,7 @@ export class Row {
         return new Row(rowNumber);
     }
 
-    constructor(rowNumber: Square.Number) {
+    private constructor(rowNumber: Square.Number) {
         this.number = rowNumber;
     }
 
@@ -105,7 +105,7 @@ export class Column {
     readonly character: ColumnCharacter;
     readonly number: Square.Number;
 
-    constructor(columnCharacter: ColumnCharacter) {
+    private constructor(columnCharacter: ColumnCharacter) {
         this.character = columnCharacter;
         this.number = Square.lowercaseAvailableColumns.indexOf(this.character.toLowerCase() as LowerCaseColumnCharacter) as Square.Number;
     }
