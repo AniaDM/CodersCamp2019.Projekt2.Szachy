@@ -16,11 +16,11 @@ export default class Pawn extends Piece {
         const forwardRow = currentSquare.row.number + delta;
         const singleMoveSquare = Row.isValidRowNumber(forwardRow)
             ? currentSquare.atY(forwardRow)
-            : null;
+            : undefined;
         const doubleForwardRow = currentSquare.row.number + 2 * delta;
         const doubleMoveSquare = this.onStartingRow(currentSquare) && Row.isValidRowNumber(doubleForwardRow)
             ? currentSquare.atY(doubleForwardRow)
-            : null;
+            : undefined;
 
         let normalMovesSquares: Square[] = [];
         if (!singleMoveSquare || this.isMoveToSquareImpossible(chessBoard, singleMoveSquare)) {

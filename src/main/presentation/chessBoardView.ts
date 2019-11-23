@@ -5,8 +5,6 @@ import ChessGame from "../domain/chessGame";
 import {PieceMoved} from "../domain/board/move";
 import {PieceMove} from "../domain/pieces/pieceMove";
 import {isPieceName} from "../domain/pieces/pieceName";
-import {isDefined, isNotNull} from "../domain/utils";
-import Piece from "../domain/pieces/piece";
 
 const ICON_HTML_TAG_NAME = 'I';
 const SQUARE_ID_COLUMN_INDEX = 0;
@@ -99,23 +97,24 @@ export default class ChessBoardView {
     }
 
     private showPromoteModal(pawnSquare: Square) {
-        const newPiece = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook");
-        if (isNotNull(newPiece)) {
-            const newPieceName = newPiece!.charAt(0).toUpperCase() + newPiece!.slice(1);
+        const promptResult = prompt("You can promote your pawn. Choose the new piece.", "bishop, knight, queen, rook");
+        const newPieceName = promptResult == null ? undefined : promptResult;
+        if (newPieceName) {
+            const newPieceName = promptResult!.charAt(0).toUpperCase() + promptResult!.slice(1);
             if (isPieceName(newPieceName) && newPieceName !== "Pawn") {
                 const promoted = this.chessGame.promotePawn(pawnSquare, newPieceName);
                 this.makeTheIcon(pawnSquare.id, promoted.name, promoted.side);
             } else {
-                this.showInvalidPieceNameAlert(newPiece, pawnSquare);
+                this.showInvalidPieceNameAlert(newPieceName, pawnSquare);
             }
         } else {
-            this.showInvalidPieceNameAlert(newPiece, pawnSquare);
+            this.showInvalidPieceNameAlert(newPieceName, pawnSquare);
         }
 
     }
 
 
-    private showInvalidPieceNameAlert(newPiece: string | null, pawnSquare: Square) {
+    private showInvalidPieceNameAlert(newPiece: string | undefined, pawnSquare: Square) {
         alert("Invalid piece name: " + newPiece);
         this.showPromoteModal(pawnSquare);
     }

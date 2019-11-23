@@ -19,7 +19,7 @@ export default class King extends Piece {
             const x = currentSquare.column.number + delta[0];
             let moveSquare = Row.isValidRowNumber(y) && Column.isValidColumnNumber(x)
                 ? currentSquare.atY(y).atX(x)
-                : null;
+                : undefined;
             if (moveSquare && !this.isMoveToSquareImpossible(chessBoard, moveSquare)) {
                 normalMoves.push(moveSquare);
             }
