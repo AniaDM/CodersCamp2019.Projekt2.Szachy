@@ -1,31 +1,12 @@
-export class PieceMoved {
+import Piece from "../pieces/piece";
+import {PieceMove} from "../pieces/pieceMove";
+import {Square} from "./square";
 
-    piece;
-    availableMoves;
-    from;
-    to;
-
-    constructor(piece, availableMoves, from, to) {
-        this.piece = piece;
-        this.availableMoves = availableMoves;
-        this.from = from;
-        this.to = to;
-    }
+export type PieceMoved = {
+    piece: Piece;
+    availableMoves: PieceMove[];
+    from: Square;
+    to: Square;
 }
 
-export class PieceNotMoved {
-
-    piece;
-    availableMoves;
-    from;
-    to;
-    reason;
-
-    constructor(piece, availableMoves, from, to, reason) {
-        this.piece = piece;
-        this.availableMoves = availableMoves;
-        this.from = from;
-        this.to = to;
-        this.reason = reason;
-    }
-}
+export type PieceNotMoved = PieceMoved & { reason: string }

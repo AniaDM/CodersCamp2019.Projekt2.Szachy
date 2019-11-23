@@ -5,10 +5,11 @@ import Knight from './knight';
 import Rook from './rook';
 import Pawn from './pawn';
 import Side from "./side";
+import {PieceName} from "./pieceName";
 
 export default class PieceFactory {
 
-    createPiece(name: string, side: Side) {
+    createPiece(name: PieceName, side: Side) {
         switch (name) {
             case 'King':
                 return new King(side);
@@ -22,8 +23,6 @@ export default class PieceFactory {
                 return new Rook(side);
             case 'Pawn':
                 return new Pawn(side);
-            default:
-                throw new Error(`Invalid piece name: ${name}`)
         }
     }
 

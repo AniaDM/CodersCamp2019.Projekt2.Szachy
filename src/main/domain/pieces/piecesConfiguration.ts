@@ -1,15 +1,12 @@
+import {PieceName} from "./pieceName";
+
 export type ChessboardPiecesConfig = {
     white: SidePiecesConfig,
     black: SidePiecesConfig
 }
 
 export type SidePiecesConfig = {
-    King: string[],
-    Queen: string[],
-    Bishop: string[],
-    Knight: string[],
-    Rook: string[],
-    Pawn: string[]
+    [pieceName in PieceName] : string[]
 }
 
 export default abstract class PiecesConfiguration {

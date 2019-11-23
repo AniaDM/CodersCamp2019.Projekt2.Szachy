@@ -57,12 +57,12 @@ describe('Queen', () => {
         const queenOnBoard = startingBoard.getPiece(queenSquare);
         const moves = queenOnBoard.getAvailableMoves(startingBoard, queenSquare);
 
-        for (let i = 0; i < moves.lenght - 1; i++) {
+        for (let i = 0; i < moves.length - 1; i++) {
             let rowNumber = moves[i].square.row.number;
             assert.isBelow(rowNumber, 8, 'row is less than 8')
         }
 
-        for (let i = 0; i < moves.lenght - 1; i++) {
+        for (let i = 0; i < moves.length - 1; i++) {
             let columnNumber = moves[i].square.column.number;
             assert.isBelow(columnNumber, 8, 'column is less than 8')
         }

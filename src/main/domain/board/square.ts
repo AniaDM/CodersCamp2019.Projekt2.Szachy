@@ -91,7 +91,7 @@ export class Row {
     }
 
     static isValidRowNumber(rowNumber: any): rowNumber is Square.Number {
-        return (typeof rowNumber === 'number') && rowNumber >= 0 && rowNumber <= 7;
+        return Square.availableNumber.includes(rowNumber);
     }
 
 }
@@ -120,11 +120,11 @@ export class Column {
     }
 
     static isValidColumnCharacter(columnCharacter: any): columnCharacter is ColumnCharacter {
-        return Square.lowercaseAvailableColumns.includes(columnCharacter.toLowerCase());
+        return columnCharacter === "string" && Square.lowercaseAvailableColumns.includes(columnCharacter.toLowerCase());
     }
 
     static isValidColumnNumber(columnNumber: any): columnNumber is Square.Number {
-        return (typeof columnNumber === 'number') && columnNumber >= 0 && columnNumber <= 7;
+        return Square.availableNumber.includes(columnNumber);
     }
 
     get number(): Square.Number {

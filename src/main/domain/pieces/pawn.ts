@@ -66,7 +66,7 @@ export default class Pawn extends Piece {
     }
 
     isMoveToSquareImpossible(chessBoard: ChessBoard, square: Square) {
-        return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
+        return chessBoard.squareIsOccupied(square);
     }
 
 }

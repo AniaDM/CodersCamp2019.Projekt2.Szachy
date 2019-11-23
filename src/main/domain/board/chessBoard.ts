@@ -1,4 +1,5 @@
 import {Column, Row, Square} from "./square";
+import Piece from "../pieces/piece";
 
 const BOARD_SIZE = 8;
 
@@ -8,7 +9,7 @@ const BOARD_SIZE = 8;
  */
 export default class ChessBoard {
 
-    board;
+    board: (Piece | undefined)[][];
 
     constructor(board = ChessBoard._createEmptyBoard()) {
         this.board = board;
@@ -26,45 +27,38 @@ export default class ChessBoard {
         return board;
     }
 
-    movePiece(piece, from, to) {
+    movePiece(piece: Piece, from: Square, to: Square) {
         return this._cloneBoard()
             .setPiece(from, undefined)
             .setPiece(to, piece);
     }
 
-    setPiece(square, piece) {
+    setPiece(square: Square, piece: Piece) {
         const clone = this._cloneBoard();
         clone.board[square.row.number][square.column.number] = piece;
         return clone;
     }
 
-    getPiece(square) {
+    getPiece(square: Square) {
         return this.board[square.row.number][square.column.number];
     }
 
-    findPieceSquare(pieceToFind) {
+    findPieceSquare(pieceToFind: Piece) {
         for (let row = 0; row < this.board.length; row++) {
             for (let col = 0; col < this.board[row].length; col++) {
                 if (this.board[row][col] === pieceToFind) {
-                    return Square.at(Column.fromNumber(col), Row.fromNumber(row));
+                    return Square.at(Column.fromNumber(col as Square.Number), Row.fromNumber(row as Square.Number));
                 }
             }
         }
         throw new Error('The supplied piece is not on the board');
     }
 
-    squareInBounds(colNumber, rowNumber) {
-        return (
-            0 <= rowNumber && rowNumber < BOARD_SIZE &&
-            0 <= colNumber && colNumber < BOARD_SIZE
-        );
-    }
-
-    squareIsEmpty(square) {
+    squareIsEmpty(square: Square) {
         return this.getPiece(square) === undefined;
     }
 
-    squareIsOccupied(square) {
+    squareIsOccupied(square: Square) {
         return this.getPiece(square) !== undefined;
     }
 

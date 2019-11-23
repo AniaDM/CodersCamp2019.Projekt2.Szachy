@@ -2,30 +2,20 @@ import Side from './side';
 import {PieceMove} from "./pieceMove";
 import ChessBoard from "../board/chessBoard";
 import {Square} from "../board/square";
+import {PieceName} from "./pieceName";
 
 export default abstract class Piece {
 
     side: Side;
 
     protected constructor(side: Side) {
-        if (side !== Side.WHITE && side !== Side.BLACK) {
-            throw new TypeError('Side must be White or Black!')
-        }
-        if (this.constructor === Piece) {
-            throw new TypeError('Abstract class "Piece" cannot be instantiated directly.')
-        }
-
-        //if (this.getAvailableMoves === undefined) {
-        //    throw new TypeError('Classes extending the "Piece" abstract class have to implement method!');
-        //}
-
         this.side = side;
     }
 
     abstract getAvailableMoves(chessBoard: ChessBoard, currentSquare: Square): PieceMove[];
 
-    get name() {
-        return this.constructor.name;
+    get name(): PieceName {
+        return this.constructor.name as PieceName;
     }
 
     isWhite() {
@@ -53,6 +43,5 @@ export default abstract class Piece {
             }
         };
     }
-
 }
 
