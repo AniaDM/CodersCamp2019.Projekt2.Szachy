@@ -31,7 +31,11 @@ export default class ChessGame {
     selectPieceAvailableToMoveBySquare(square) {
         const piece = this.findPieceBySquare(square);
         if (this.isSelectable(piece)) {
-            const availableMoves = piece.getAvailableMoves(this.chessBoard, square);
+            const availableMoves = piece
+                                   .getAvailableMoves(this.chessBoard, square)
+                                   .filter(item=>{return !this.notLegalMove(piece, square, item.square)});
+    
+            console.log( availableMoves);
             if (availableMoves.length === 0) {
                 return null;
             }
@@ -40,7 +44,7 @@ export default class ChessGame {
         }
         return null;
     }
-
+   
     moveSelectedPieceTo(targetSquare, pieceMovedCallback, pieceNotMovedCallback) {
         const pieceAvailableMoves = this.selected.availableMoves;
         if (!this.isPieceToMoveSelected()) {
@@ -63,54 +67,55 @@ export default class ChessGame {
                     targetSquare,
                     'Selected square is not available for the piece!')
             );
-        } else if(this.notLegalMove(this.selected.piece, this.selected.square, targetSquare)){
-            pieceNotMovedCallback(
-                new PieceNotMoved(
-                    this.selected.piece,
-                    pieceAvailableMoves,
-                    this.selected.square,
-                    targetSquare,
-                    'King is checked!')
-            );
+        
                 } else {
-            this._saveHistory();
-            this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
+                  this._saveHistory();
+                  this.chessBoard = this.chessBoard.movePiece(this.selected.piece, this.selected.square, targetSquare);
            
-                if (pieceMovedCallback) {
-                   pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
-                }
-                if(this.chessBoard.checkingCheck()[0]){
-                  alert('white king is checked');
-                };
-                if(this.chessBoard.checkingCheck()[1]){
-                  alert('black king is checked');
-                };
-                this.toggleCurrentSide();
-                if(this.checkingCheckMate()){
-                    alert("Check Mate!!!!!!");
-                };
+                   if (pieceMovedCallback) {
+                      pieceMovedCallback(new PieceMoved(this.selected.piece, pieceAvailableMoves, this.selected.square, targetSquare));
+                   }
+                   this.checkingCheck();
+                   this.toggleCurrentSide();
+                   this.checkingCheckMate();
+                   
         }
         this._clearSelection();
     }
-    checkingCheckMate(){
-        const legalMoves=[];
-        this.board.getPiecesForSide(this.currentSide).forEach(item=>{
+   checkingCheckMate(){
+        let checked=true;
+        this.chessBoard.getMovesForPiecesForSide(this.currentSide).forEach(item=>{
             if(!this.notLegalMove(item[0],item[1],item[2].square)){
-            legalMoves.push(!this.notLegalMove(item[0],item[1],item[2].square));
+                checked=false;
             }
         })
-        return legalMoves.length==0;
+        if(checked){
+            alert("C H E C K M A T E !!!!!!");
+         }
         
     }
+    
     notLegalMove(piece,square, targetSquare){
-        this.chessBoard = this.chessBoard.movePiece(piece,square, targetSquare);
-        const afterMoveIsKingChecked=this.kingIsChecked();
-        this.chessBoard = this.chessBoard.movePiece(piece,targetSquare,square);
+        const newBoard = this.chessBoard.movePiece(piece,square, targetSquare);
+        const afterMoveIsKingChecked=this.kingIsChecked(newBoard,this.currentSide);
         return afterMoveIsKingChecked;
     }
-
-    kingIsChecked(){  
-       return this.currentSide === Side.WHITE ?this.chessBoard.checkingCheck()[0]:this.chessBoard.checkingCheck()[1];
+    kingIsChecked(newBoard,side){
+        const check=this.chessBoard.checkingKing(newBoard);
+        if(check){
+            if(check[0].side===side&&check[0].checked===true){
+                check[0].checked=false;
+                return true;
+            }
+            check[0].checked=false;
+        }
+        return false;
+    }
+    checkingCheck(){
+    const toggledSide=this.currentSide === Side.WHITE ? Side.BLACK : Side.WHITE;
+       if(this.kingIsChecked(this.board,toggledSide)){
+          alert('C H E C K !');
+        }
     }
     _saveHistory() {
         this.gameHistory.push({

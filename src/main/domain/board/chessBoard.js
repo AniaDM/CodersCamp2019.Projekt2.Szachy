@@ -64,18 +64,13 @@ export default class ChessBoard {
         }
          return pieceTab;
     }
-    checkingCheck(){
-        const board = this.getPieces();
-        board.forEach(item=>{item[0].getAvailableMoves(this,item[1])});
-        const whiteKingPiece=board.filter(item=>{return item[0].name==='King'&&item[0].side===Side.WHITE});
-        const blackKingPiece=board.filter(item=>{return item[0].name==='King'&&item[0].side===Side.BLACK});
-        const whiteKingChecked=whiteKingPiece[0][0].checked;
-        const blackKingChecked=blackKingPiece[0][0].checked;
-        whiteKingPiece[0][0].checked=false;
-        blackKingPiece[0][0].checked=false;
-        return [whiteKingChecked,blackKingChecked]
+    checkingKing(newBoard){
+        const board = newBoard.getPieces();
+        board.forEach(item=>{item[0].getAvailableMoves(newBoard,item[1])});
+        const checkedKing=board.filter(item=>{return item[0].name==='King'&&item[0].checked});
+        return checkedKing[0];
      }
-     getPiecesForSide(side){
+     getMovesForPiecesForSide(side){
          const moves=[];
          let piece,square,move;
          this.getPieces()
@@ -107,7 +102,11 @@ export default class ChessBoard {
     squareIsOccupied(square) {
         return this.getPiece(square) !== undefined;
     }
-
+    notLegalMove(piece,square, targetSquare){
+        const newBoard = this.chessBoard.movePiece(piece,square, targetSquare);
+        const afterMoveIsKingChecked=this.kingIsChecked(newBoard,this.currentSide);
+        return afterMoveIsKingChecked;
+    }
     _cloneBoard() {
         return new ChessBoard(this.board.map(row => row.slice()));
     }

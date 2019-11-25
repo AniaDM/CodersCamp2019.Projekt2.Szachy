@@ -68,8 +68,7 @@ export default class ChessBoardView {
                     document.getElementById(pieceMoved.from.id).innerHTML = '';
                     this.makeTheIcon(pieceMoved.to.id, pieceMoved.piece.name, pieceMoved.piece.side);
                     this._hideAvailableMoves(pieceMoved.availableMoves);
-                   
-                                    this.checkingPromote(pieceMoved);
+                    this.checkingPromote(pieceMoved);
                    
                 },
                 pieceNotMoved => {
@@ -80,6 +79,7 @@ export default class ChessBoardView {
         }
     }
     
+  
     checkingPromote(pieceMoved) {
         const pawnPiece = "Pawn"
         const pawnSquare = pieceMoved.to
@@ -117,6 +117,7 @@ export default class ChessBoardView {
     }
 
     _showAvailableMoves(moves) {
+       
         for (let move of moves) {
             document.getElementById(move.square.id).classList.add(CSS_AVAILABLE_MOVE_CLASS_NAME);
         }

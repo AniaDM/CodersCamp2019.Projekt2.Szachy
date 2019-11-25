@@ -34,6 +34,7 @@ export default class King extends Piece {    constructor(side) {
        return !chessBoard.squareInBounds(square.row.number, square.col.number) || chessBoard.squareIsOccupied(square);
    }
   isCapturableBy(anotherPiece){
+      
       if(this.side !== anotherPiece.side){
       this.checked=true;
       }

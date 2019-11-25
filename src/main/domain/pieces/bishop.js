@@ -15,7 +15,6 @@ export default class Bishop extends Piece {
 
     getAvailableMoves(chessBoard, currentSquare) {
         let normalMoves = [];
-        //console.log(`column = ${currentSquare.column.number}, row = ${currentSquare.row.number}`);
 
         ///////////////////////// 1 FOR  +Y+X   ///////////////////////////
 
